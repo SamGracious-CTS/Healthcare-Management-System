@@ -1,0 +1,20 @@
+.header-container {
+  /* background-color: rgb(255, 255, 255); */
+  background-color: #add8e6;
+  padding:15px 40px;
+  border-bottom: 1px solid rgb(189, 189, 189);
+ }
+h2{
+    font-family: sans-serif;
+    font-weight: bolder;
+}
+h3{
+    font-family:sans-serif;
+    color: rgb(42, 37, 37);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+
+/* Welcome message */

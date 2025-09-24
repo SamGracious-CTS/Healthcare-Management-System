@@ -1,0 +1,15 @@
+<app-header-component></app-header-component>
+<div class="doctor-portal">
+ <h2 class="header">Quick Actions</h2>
+
+  <div class="button-group">
+    <button id="btn" (click)="setActive('availability')">Manage Availability</button>
+    <button id="btn" (click)="setActive('notes')">Consultation Notes</button>
+  </div>
+
+  <div class="content-area">
+    <app-availability-component *ngIf="activeButton === 'availability'"></app-availability-component>
+    <app-notes-component *ngIf="activeButton === 'notes'"></app-notes-component>
+  </div>
+</div>
+

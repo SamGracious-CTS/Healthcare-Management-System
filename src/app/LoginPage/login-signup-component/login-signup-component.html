@@ -1,0 +1,38 @@
+<div class="header">
+   <h1>
+          <span class="docIcon">🩺</span>
+          DocDocGo
+    </h1>
+</div>
+<div class="container">
+
+
+
+<div *ngIf="showSignup">
+  <h2>Signup</h2>
+  <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)">
+    <input name="name" ngModel placeholder="Name" required />
+    <input name="mailid" ngModel placeholder="Email ID" required />
+    <input name="phonenumber" ngModel placeholder="Phone Number" required />
+    <input name="password" ngModel placeholder="Password" required type="password" />
+    <input name="confirmPassword" ngModel placeholder="Confirm Password" required type="password" />
+    <button type="submit">Sign Up</button>
+  </form>
+</div>
+
+
+<div *ngIf="!showSignup">
+  <h2>Login</h2>
+  <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+    <input name="mailid" ngModel placeholder="Email ID" required email />
+    <input name="password" ngModel placeholder="Password" required type="password" />
+    <button type="submit">Login</button>
+  </form>
+</div>
+<div>
+  <button (click)="switchForm()">
+    {{ showSignup ? 'Switch to Login' : 'Switch to Signup' }}
+  </button>
+</div>
+</div>
+

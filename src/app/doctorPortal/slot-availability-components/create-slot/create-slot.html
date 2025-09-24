@@ -1,0 +1,123 @@
+<div class="custom-modal-backdrop">
+  <div class="custom-modal-dialog">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <h5>Manage Availability</h5>
+        <button class="btn-close" (click)="cancel()"></button>
+      </div>
+ 
+      <div class="custom-modal-body">
+        <form>
+          <div class="border p-3 mb-3">
+            <div class="mb-3 form-group row">
+              <div class="col-sm-3 col-form-label">
+                <label>Select Date<span style="color: red">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="date"
+                  class="form-control"
+                  [min]="minDate"
+                  [(ngModel)]="selectedDate"
+                  name="date"
+                  (change)="validateForm()"
+                />
+              </div>
+            </div>
+ 
+            <div class="mb-3 form-group row">
+              <div class="col-sm-3 col-form-label">
+                <label>Start Time<span style="color: red">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="time"
+                  class="form-control"
+                  [(ngModel)]="startTime"
+                  name="startTime"
+                  (change)="validateForm()"
+                  required
+                />
+              </div>
+            </div>
+            <div class="mb-3 form-group row">
+              <div class="col-sm-3 col-form-label">
+                <label>End Time<span style="color: red">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="time"
+                  class="form-control"
+                  [(ngModel)]="endTime"
+                  name="endTime"
+                  [min]="startTime"
+                  (change)="validateForm()"
+                  required
+                />
+              </div>
+            </div>
+            <small style="color: red">{{ validationMessage }}</small>
+            <div class="text-end">
+              <button
+                type="button"
+                class="btn btn-secondary mt-2"
+                [disabled]="!isFormValid && editSlot"
+                (click)="addTimeSlot()"
+              >
+                Add Slot
+              </button>
+            </div>
+          </div>
+ 
+          <div
+            class="container border p-3"
+            *ngIf="hasTimeSlots"
+            style="max-height: 40vh; overflow-y: auto"
+          >
+            <div *ngFor="let date of getDates()">
+              <h5>{{ date | date}}</h5>
+              <ul class="list-group mb-3">
+                <li
+                  class="list-group-item"
+                  *ngFor="let slot of newTimeSlotsByDate[date]; index as i"
+                >
+                  {{ slot.startTime }} to {{ slot.endTime }}
+ 
+                  <span
+                    style="color: red; cursor: pointer; float: right"
+                    (click)="deleteTimeSlot(i, date)"
+                    title="Delete Slot"
+                    ><i class="fas fa-trash"></i>
+                  </span>
+                  <span
+                    class="mx-2"
+                    style="color: blue; cursor: pointer; float: right"
+                    (click)="editTimeSlot(i, date, slot.startTime, slot.endTime)"
+                    title="Edit Slot"
+                    ><i class="fas fa-edit"></i>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </div>
+ 
+      <div class="custom-modal-footer mt-2">
+        <button class="btn btn-success" (click)="saveAvailability()">Save</button>
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+ [
+  {"date":{startTime: "",endTime:""} },
+  {"date":{startTime: "",endTime:""} },
+  {"date":{startTime: "",endTime:""} },
+ ]
+ 
+ 
+-->
+ 
+ 

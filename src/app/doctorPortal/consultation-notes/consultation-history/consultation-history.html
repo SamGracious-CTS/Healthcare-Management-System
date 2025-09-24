@@ -1,0 +1,25 @@
+<div class="card p-3 mt-3">
+    <h5>Consultation History</h5>
+    <table class="table table-striped" *ngIf="filteredRecords.length > 0">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Date</th>
+                <th>Notes</th>
+                <th>Prescription</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let record of filteredRecords">
+                <td> {{ record.patientName }} </td>
+                <td> {{ record.date }} </td>
+                <td> {{ record.notes }} </td>
+                <td> {{ record.prescription }} </td>
+            </tr>
+        </tbody>
+        
+    </table>
+    <div *ngIf="filteredRecords.length === 0" class="text-muted">
+        No Consultation records found.
+    </div>
+</div>

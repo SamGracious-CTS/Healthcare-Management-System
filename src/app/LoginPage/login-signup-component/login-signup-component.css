@@ -1,0 +1,68 @@
+/* Container styling */
+.container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Labels and inputs */
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: #444;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #add8e6; /* Light blue */
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #87ceeb; /* Slightly deeper blue */
+}
+
+/* Toggle button spacing */
+button:first-of-type {
+  margin-bottom: 20px;
+}
+
+.header {
+    
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #add8e6;
+    border-color: #87ceeb;
+    border-bottom: #444;
+
+}

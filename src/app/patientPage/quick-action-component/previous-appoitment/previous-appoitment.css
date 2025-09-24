@@ -1,0 +1,67 @@
+.card-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+ 
+.appointment-card {
+    margin-top: 20px;
+  min-width: 300px;
+  flex: 0 0 auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  scroll-snap-align: start;
+  transition: box-shadow 0.3s ease;
+}
+ 
+.appointment-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+ 
+.card-header p {
+  margin: 4px 0;
+}
+ 
+.card-body {
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+}
+ 
+/* Scrollable Navbar Styles */
+.navbar {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  background-color: #2c3e50;
+  padding: 10px;
+  border-radius: 5px;
+}
+ 
+.navbar a {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+ 
+.navbar a:hover {
+  background-color: #34495e;
+}
+ 
+/* Optional: Hide scrollbar for cleaner look */
+.navbar::-webkit-scrollbar {
+  display: none;
+}
+ 
+ 

@@ -1,0 +1,31 @@
+.history-table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.history-table th,
+.history-table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.history-table th {
+  background: #007bff;
+  color: #fff;
+  font-weight: 600;
+}
+
+.history-table tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.history-table tr:hover {
+  background: #e9f5ff;
+  transition: 0.2s ease;
+}

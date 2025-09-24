@@ -1,0 +1,20 @@
+<div *ngIf="selectedPatient" class="card mb-3 p-3">
+    <h5>Consulatation for {{ selectedPatient?.name }} {{ selectedPatient?.id }}</h5>
+
+    <div class="mb-3">
+        <label class="form-label">Notes</label>
+        <textarea [(ngModel)]="notes" class="form-control" rows="3" placeholder="Enter consultation notes"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Prescription</label>
+        <textarea [(ngModel)]="prescription" class="form-control" rows="2" placeholder="Enter prescription"></textarea>
+    </div>
+
+    <button class="btn btn-primary" (click)="submitConsultation()">Submit</button>
+
+</div>
+
+<div *ngIf="!selectedPatient" class="alert alert-warning">
+    Please select a patient to start consultation.
+</div>

@@ -1,0 +1,24 @@
+<div class="appointments-container" >
+    <h2>Upcoming Appointments</h2>
+  <div class="appointment" *ngFor="let appt of appointments">
+    <div class="details-left">
+      <p><strong>Dr.{{ appt.doctorName }}</strong></p>
+      <p>Specialty: {{ appt.speciality }}</p>
+    </div>
+    <div class="details-right">
+      <p> {{ appt.time }}</p>
+      <p> {{ appt.date }}</p>
+      <p>Status: 
+        <span [ngClass]="{
+          'status': true,
+          'confirmed': appt.status === 'Confirmed',
+          'pending': appt.status === 'Pending',
+          'cancelled': appt.status === 'Cancelled'
+        }">{{ appt.status }}</span>
+        
+      </p>
+      <button type="button" (click)="cancelAppointments(appt)">cancel</button>
+    </div>
+  </div>
+</div>
+

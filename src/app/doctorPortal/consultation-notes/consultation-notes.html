@@ -1,0 +1,19 @@
+<div class="container mt-4">
+<h2>Doctor Dashboard</h2>
+
+<app-patient-search 
+    [patients]="patients"
+    (patientSelected)="onPatientSelected($event)">
+</app-patient-search>
+
+<app-consultation-form
+    [selectedPatient]="selectedPatient"
+    (addConsultation)="onAddConsultation($event)">
+</app-consultation-form>
+
+<app-consultation-history
+    [consultationRecords]="consultationRecords"
+    [selectedPatient]="selectedPatient">
+</app-consultation-history>
+</div>
+

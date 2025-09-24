@@ -1,0 +1,30 @@
+<div class="quick-actions">
+<h2 style="padding-left: 18px;"> + Quick Actions</h2>
+<div class="button-group"  >
+
+<button  (click)="setActive('book')" [ngClass]="{'active': activeButton === 'book'}" id="btn" >Book Appointment</button>
+<button (click)="setActive('prev')" [ngClass]="{'active': activeButton === 'prev'}" id="btn">Previous Appointment</button>
+<!-- <button (click)="setActive('pres')" [ngClass]="{'active': activeButton === 'presc'}" id="btn" data-bs-toggle="modal" data-bs-target="#m">Prescription</button> -->
+<!-- <button (click)="setActive('health')" id="btn">Health Summary</button> -->
+<!-- <button
+      (click)="setActive('manageAvailability')"
+      [ngClass]="{ active: activeButton === 'manageAvailability' }"
+      id="btn"
+    >
+      Manage Availability
+    </button> -->
+</div> 
+ <app-book-appointment *ngIf="activeButton==='book'"></app-book-appointment>
+<app-previous-appoitment *ngIf="activeButton==='prev'"></app-previous-appoitment>
+ <!-- <app-prescription *ngIf="activeButton==='pres'"></app-prescription> -->
+  <!-- <app-manage-availability
+    class="bg-light"
+    *ngIf="activeButton === 'manageAvailability'"
+  ></app-manage-availability> -->
+</div> 
+
+
+ 
+
+
+
