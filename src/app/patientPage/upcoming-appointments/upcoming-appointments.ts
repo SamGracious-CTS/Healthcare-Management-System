@@ -14,7 +14,6 @@ import { AppointmentService } from '../../services/appointment-service';
   imports: [CommonModule,],
   templateUrl: './upcoming-appointments.html',
   styleUrl: './upcoming-appointments.css',
-  providers:[AppointmentService]
 })
 export class UpcomingAppointments {
    

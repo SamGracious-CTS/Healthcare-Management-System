@@ -14,7 +14,7 @@ import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-quick-action-component',
-  imports: [CommonModule,FormsModule,BookAppointment,PreviousAppoitment,Prescription, ManageAvailability, CreateSlot,RouterModule],
+  imports: [CommonModule,FormsModule,BookAppointment,PreviousAppoitment,RouterModule],
   templateUrl: './quick-action-component.html',
   styleUrl: './quick-action-component.css'
 })

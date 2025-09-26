@@ -1,74 +1,31 @@
 import { Injectable } from '@angular/core';
-
-export interface Patient {
-  id: string,
-  name: string,
-  age: number,
-  gender: string
-}
-
-export interface ConsultationRecord {
-  consultationId: string,
-  patientId: string,
-  patientName: string,
-  date: string,
-  notes: string,
-  prescription: string
-}
+import { ConsultationRecord, Patient } from '../Model/consultationRecord';
+import { AppointmentService } from './appointment-service'; // adjust path as needed
 
 @Injectable({
   providedIn: 'root'
 })
 export class Consultation {
+  private consultations: ConsultationRecord[] = [];
 
-  private patients: Patient[] = [
-    {id:'P001', name:'Sohith', age:28, gender:'Male'},
-    {id:'P002', name:'Vikas', age:34, gender:'Male'},
-    {id:'P003', name:'Robin', age:42, gender:'Male'}
-  ]
+  constructor(private appointmentService: AppointmentService) {}
 
-  private consultationRecords: ConsultationRecord[] = [
-
-    {
-      consultationId: 'C001',
-      patientId: 'P001',
-      patientName: 'Sohith',
-      date: '2025-09-20',
-      notes: 'Mild fever and headache',
-      prescription: 'Paracetmol 500mg twice daily'
-    },
-
-    {
-      consultationId: 'C002',
-      patientId: 'P002',
-      patientName: 'Vikas',
-      date: '2025-09-19',
-      notes: 'Back pain and stiffness',
-      prescription: 'Ibuprofen 400mg thrice daily'
-    }
-
-  ]
-
-  constructor() {}
-
-  addPatient(patient: Patient) {
-    this.patients.push(patient);
-  }
-
-  getPatients(): Patient[]{
-    return this.patients;
+  getPatients(): Patient[] {
+    // Convert Patients from AppointmentService into Patient format
+    const booked = this.appointmentService.getAppointments();
+    return booked.map(p => ({
+      id: p.id,
+      age: p.age,
+      name: p.name,
+      phoneNumber: p.phoneNumber
+    }));
   }
 
   getConsultations(): ConsultationRecord[] {
-    return this.consultationRecords;
+    return this.consultations;
   }
 
-  addConsultation(record: ConsultationRecord){
-    this.consultationRecords.push(record);
+  addConsultation(record: ConsultationRecord): void {
+    this.consultations.push(record);
   }
-
-  getPatientConsultations(patientId: string): ConsultationRecord[] {
-    return this.consultationRecords.filter(r => r.patientId === patientId);
-  }
-
 }

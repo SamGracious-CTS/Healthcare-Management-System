@@ -11,11 +11,37 @@
 <div *ngIf="showSignup">
   <h2>Signup</h2>
   <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)">
-    <input name="name" ngModel placeholder="Name" required />
-    <input name="mailid" ngModel placeholder="Email ID" required />
-    <input name="phonenumber" ngModel placeholder="Phone Number" required />
-    <input name="password" ngModel placeholder="Password" required type="password" />
-    <input name="confirmPassword" ngModel placeholder="Confirm Password" required type="password" />
+    <input name="name" ngModel #name="ngModel" placeholder="Name" required />
+    <div *ngIf="name.invalid && name.touched" class="error">Name is required.</div>
+    <!-- <input name="mailid" ngModel #mailid="ngModel" placeholder="Email ID" required /> -->
+     <input name="mailid" ngModel #mailid="ngModel" placeholder="Email ID" required (ngModelChange)="onEmailChange($event)" />
+
+    <div *ngIf="mailid.invalid  && mailid.touched" class="error">Email is required.</div>
+     <div *ngIf="userType === 'Doctor'">
+      <select name="speciality" ngModel #speciality="ngModel" required>
+        <option value="" disabled selected>Select Speciality</option>
+        <option *ngFor="let spec of specialties" [value]="spec">{{ spec }}</option>
+      </select>
+      <div *ngIf="speciality.invalid && speciality.touched" class="error">Speciality is required.</div>
+    </div>
+    <input name="phonenumber" ngModel #phonenumber="ngModel" placeholder="Phone Number" required pattern="^[0-9]{9}$" />
+    <div *ngIf="phonenumber.invalid && phonenumber.touched" class="error">
+      <span *ngIf="phonenumber.errors?.['required']">Phone number is required.</span>
+      <span *ngIf="phonenumber.errors?.['pattern']">Phone number must be 9 digits.</span>
+    </div>
+    <input name="password" ngModel #password="ngModel" placeholder="Password" required type="password" />
+    <div *ngIf="password.invalid && password.touched" class="error">Password is required.</div>
+    <input name="confirmPassword" ngModel #confirmPassword="ngModel" placeholder="Confirm Password" required type="password" />
+    <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="error">Confirm Password is required.</div>
+    <!-- <div class="radio-group">
+      <label>
+        <input type="radio" name="userType" value="Patient" [(ngModel)]="userType" required /> Patient
+      </label>
+      <label>
+        <input type="radio" name="userType" value="Doctor" [(ngModel)]="userType" required /> Doctor
+      </label>
+    </div> -->
+   
     <button type="submit">Sign Up</button>
   </form>
 </div>

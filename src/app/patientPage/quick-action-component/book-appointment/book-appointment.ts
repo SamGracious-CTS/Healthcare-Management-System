@@ -1,80 +1,83 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-//import {  Appointment, Patients } from '../../Model/appointment';
 import { Appointment, Patients } from '../../../Model/appointment';
-
-//import { AppointmentService } from '../../services/appointment-service';
 import { AppointmentService } from '../../../services/appointment-service';
+import { DoctorService } from '../../../services/doctor-service';
+
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-book-appointment',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './book-appointment.html',
   styleUrl: './book-appointment.css',
- 
 })
-export class BookAppointment {
+export class BookAppointment implements OnInit {
+  apptform: any;
+  constructor(private appointmentService: AppointmentService, private doctorService: DoctorService) {}
 
-apptform: any;
-constructor(private appointmentService:AppointmentService){}
- 
-  patient:Patients={
-  name:'',
-  gender:'',
-  age:0,
-  phoneNumber:'',
-  doctorName:'',
-  speciality:'',
-  date:'',
-  time:'',
-  status:'Confirmed'
- };
- specialties = ['Cardiologist', 'Neurologist', 'Dermatologist'];
- 
-  doctorMap: { [key: string]: string[] } = {
-    Cardiologist: ['Navya', 'sam', 'sohit'],
-    Neurologist: ['Rasgna', 'vikas'],
-    Dermatologist: ['Preethi', 'krishna', 'robin']
+  patient: Partial<Patients> = {
+    name: '',
+    gender: '',
+    age: 0,
+    phoneNumber: '',
+    doctorName: '',
+    speciality: '',
+    date: '',
+    time: '',
+    status: 'Confirmed'
   };
- 
+
+  specialties = ['Cardiologist', 'Neurologist', 'Dermatologist'];
+
+  doctorMap: { [key: string]: string[] } = {};
+
   availableDoctors: string[] = [];
- 
+
   onSpecialtyChange(): void {
-    this.availableDoctors = this.doctorMap[this.patient.speciality] || [];
+    const specialty = this.patient.speciality;
+    this.availableDoctors = specialty ? this.doctorMap[specialty] || [] : [];
     this.patient.doctorName = '';
   }
- 
-timeSlots:string[]=[]
-showSlots=false
-form:any
- 
- onDateChange(){
-  this.showSlots=true;
-  this.timeSlots = ['9:00 AM', '11:00 AM', '2:00 PM', '4:00 PM']
- }
- selectSlot(slot:string){
-  this.patient.time=slot
- 
- }
-todayString = new Date().toISOString().split('T')[0];
- 
- submit=false
-bookAppointment(form:NgForm){
-if(form.valid){
-    this.appointmentService.bookedAppointment(this.patient);
-    this.submit=true;
-    this.patient.time = '';
-    this.showSlots = false;
-   
-    form.resetForm();
- }
- else{
-  this.submit=false;
- }
-}
 
-  
-    
+  timeSlots: string[] = [];
+  showSlots = false;
+  form: any;
+  todayString = new Date().toISOString().split('T')[0];
+  submit = false;
+
+  onDateChange() {
+    this.showSlots = true;
+    this.timeSlots = ['9:00 AM', '11:00 AM', '2:00 PM', '4:00 PM'];
+  }
+
+  selectSlot(slot: string) {
+    this.patient.time = slot;
+  }
+
+  bookAppointment(form: NgForm) {
+    if (form.valid) {
+      const paddedPatientId = 'P' + this.appointmentService.getNextPatientId();
+      const paddedDoctorId = 'D_' + this.patient.doctorName;
+
+      const bookedPatient = {
+        ...this.patient,
+        id: paddedPatientId,
+        doctorId: paddedDoctorId
+      } as Patients;
+
+      this.appointmentService.bookedAppointment(bookedPatient);
+      this.submit = true;
+      this.patient.time = '';
+      this.showSlots = false;
+      form.resetForm();
+    } else {
+      this.submit = false;
+    }
+  }
+
+  ngOnInit() {
+    this.doctorMap = this.doctorService.getDoctors();
+  }
 }
