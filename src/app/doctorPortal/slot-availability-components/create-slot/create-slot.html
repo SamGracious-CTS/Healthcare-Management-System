@@ -5,9 +5,9 @@
         <h5>Manage Availability</h5>
         <button class="btn-close" (click)="cancel()"></button>
       </div>
- 
+
       <div class="custom-modal-body">
-        <form>
+        <!-- <form>
           <div class="border p-3 mb-3">
             <div class="mb-3 form-group row">
               <div class="col-sm-3 col-form-label">
@@ -24,7 +24,7 @@
                 />
               </div>
             </div>
- 
+
             <div class="mb-3 form-group row">
               <div class="col-sm-3 col-form-label">
                 <label>Start Time<span style="color: red">*</span></label>
@@ -57,32 +57,32 @@
               </div>
             </div>
             <small style="color: red">{{ validationMessage }}</small>
-            <div class="text-end">
+            <div *ngIf="!editSlot" class="text-end">
               <button
                 type="button"
-                class="btn btn-secondary mt-2"
-                [disabled]="!isFormValid && editSlot"
+                class="btn btn-primary mt-2"
+                [disabled]="!isFormValid"
                 (click)="addTimeSlot()"
               >
-                Add Slot
+                {{((isEdit)?'Update':'Add')}} Slot
               </button>
             </div>
           </div>
- 
+
           <div
             class="container border p-3"
             *ngIf="hasTimeSlots"
             style="max-height: 40vh; overflow-y: auto"
           >
             <div *ngFor="let date of getDates()">
-              <h5>{{ date | date}}</h5>
+              <h5>{{ date | date }}</h5>
               <ul class="list-group mb-3">
                 <li
                   class="list-group-item"
                   *ngFor="let slot of newTimeSlotsByDate[date]; index as i"
                 >
                   {{ slot.startTime }} to {{ slot.endTime }}
- 
+
                   <span
                     style="color: red; cursor: pointer; float: right"
                     (click)="deleteTimeSlot(i, date)"
@@ -100,11 +100,124 @@
               </ul>
             </div>
           </div>
+        </form> -->
+        <form #form="ngForm">
+          <div class="border p-3 mb-3">
+            <!-- Select Date -->
+            <div class="mb-3 form-group row">
+              <div class="col-sm-3 col-form-label">
+                <label>Select Date<span style="color: red">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="date"
+                  class="form-control"
+                  [min]="minDate"
+                  [(ngModel)]="selectedDate"
+                  name="date"
+                  required
+                  (change)="validateForm()"
+                />
+              </div>
+            </div>
+
+            <!-- Start Time -->
+            <div class="mb-3 form-group row">
+              <div class="col-sm-3 col-form-label">
+                <label>Start Time<span style="color: red">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="time"
+                  class="form-control"
+                  [(ngModel)]="startTime"
+                  name="startTime"
+                  required
+                  (change)="validateForm()"
+                />
+              </div>
+            </div>
+
+            <!-- End Time -->
+            <div class="mb-3 form-group row">
+              <div class="col-sm-3 col-form-label">
+                <label>End Time<span style="color: red">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="time"
+                  class="form-control"
+                  [(ngModel)]="endTime"
+                  name="endTime"
+                  required
+                  [min]="startTime"
+                  (change)="validateForm()"
+                />
+              </div>
+            </div>
+
+            <!-- Validation Message -->
+            <small style="color: red">{{ validationMessage }}</small>
+
+            <!-- Add Slot Button -->
+            <div *ngIf="!editSlot" class="text-end">
+              <button
+                type="button"
+                class="btn btn-primary mt-2"
+                [disabled]="!isFormValid"
+                [ngClass]="{ 'disable-button': !isFormValid }"
+                (click)="addTimeSlot()"
+              >
+                {{ isEdit ? 'Update' : 'Add' }} Slot
+              </button>
+            </div>
+          </div>
+
+          <!-- Time Slots Display -->
+          <div
+            class="container border p-3"
+            *ngIf="hasTimeSlots"
+            style="max-height: 40vh; overflow-y: auto"
+          >
+            <div *ngFor="let date of getDates()">
+              <h5>{{ date | date }}</h5>
+              <ul class="list-group mb-3">
+                <li
+                  class="list-group-item"
+                  *ngFor="let slot of newTimeSlotsByDate[date]; index as i"
+                >
+                  {{ slot.startTime }} to {{ slot.endTime }}
+                  <span
+                    style="color: red; cursor: pointer; float: right"
+                    (click)="deleteTimeSlot(i, date)"
+                    title="Delete Slot"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </span>
+                  <span
+                    class="mx-2"
+                    style="color: blue; cursor: pointer; float: right"
+                    (click)="editTimeSlot(i, date, slot.startTime, slot.endTime)"
+                    title="Edit Slot"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </form>
       </div>
- 
+
       <div class="custom-modal-footer mt-2">
-        <button class="btn btn-success" (click)="saveAvailability()">Save</button>
+        <button
+          class="btn btn-success"
+          [ngClass]="{ 'disable-button': !isFormValid }"
+          [disabled]="!isFormValid"
+          (click)="saveAvailability()"
+        >
+          {{ editSlot ? 'Update' : 'Save' }}
+        </button>
         <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
       </div>
     </div>
@@ -116,8 +229,6 @@
   {"date":{startTime: "",endTime:""} },
   {"date":{startTime: "",endTime:""} },
  ]
- 
- 
+
+
 -->
- 
- 

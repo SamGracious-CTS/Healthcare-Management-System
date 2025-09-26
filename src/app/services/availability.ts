@@ -6,11 +6,7 @@ import { Injectable } from '@angular/core';
 export class Availability {
   private savedSlots: any = {};
 
-  // // Save the availability data
-  // saveAvailability(payload: any): void {
-  //   this.savedSlots = { ...payload };
-  //   console.log('Saved slots:', this.savedSlots);
-  // }
+
 
   // Get the saved slots
   getSavedSlots(): any {
@@ -48,27 +44,7 @@ export class Availability {
     }
   }
 
-  // editSlot(date: string, updatedSlot: { id: string; startTime: string; endTime: string }): void {
-  //   const slots = this.savedSlots[date];
-  //   if (!slots) return;
 
-  //   const index = slots.findIndex((s: any) => s.id === updatedSlot.id);
-  //   if (index === -1) return;
-
-  //   const overlaps = slots.some(
-  //     (s: any) =>
-  //       s.id !== updatedSlot.id &&
-  //       updatedSlot.startTime < s.endTime &&
-  //       updatedSlot.endTime > s.startTime
-  //   );
-
-  //   if (overlaps) {
-  //     alert(`Cannot update slot: overlaps with another slot on ${date}`);
-  //     return;
-  //   }
-
-  //   slots[index] = updatedSlot;
-  // }
 
   editSlot(
     oldDate: string,
