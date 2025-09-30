@@ -5,19 +5,30 @@ import { NotesComponent } from './notes-component/notes-component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header-component/header-component';
+import { AppointmentService } from '../../services/appointment-service';
+//import { Patient } from '../../services/consultation';
+
 
 @Component({
   selector: 'app-doctor-page',
-  imports: [ConsultationNotes, AvailabilityComponent, NotesComponent, CommonModule, FormsModule, HeaderComponent],
+  imports: [ AvailabilityComponent, NotesComponent, CommonModule, FormsModule, HeaderComponent],
   templateUrl: './doctor-page.html',
   styleUrl: './doctor-page.css'
 })
 export class DoctorPage {
+  patientName :string | null = '';
 
    activeButton: string = '';
+   
 
   setActive(button: string) {
     this.activeButton = button;
   }
+  
+
+
+  
+
+  
 
 }

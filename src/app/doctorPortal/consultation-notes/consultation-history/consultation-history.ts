@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 //import { Patient, ConsultationRecord } from '../../../services/consultation';
-import { Patient, ConsultationRecord } from '../../../services/consultation';
+import { Patient, ConsultationRecord } from '../../../Model/consultationRecord';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

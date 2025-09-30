@@ -11,11 +11,40 @@
 <div *ngIf="showSignup">
   <h2>Signup</h2>
   <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)">
-    <input name="name" ngModel placeholder="Name" required />
-    <input name="mailid" ngModel placeholder="Email ID" required />
-    <input name="phonenumber" ngModel placeholder="Phone Number" required />
-    <input name="password" ngModel placeholder="Password" required type="password" />
-    <input name="confirmPassword" ngModel placeholder="Confirm Password" required type="password" />
+    <input name="name" ngModel #name="ngModel" placeholder="Name" required />
+    <div *ngIf="name.invalid && name.touched" class="error">Name is required.</div>
+
+<input name="mailid" ngModel #mailid="ngModel" placeholder="Email ID" required pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|doctor\.com|admin\.com)$"(ngModelChange)="onEmailChange($event)" />
+
+     <div *ngIf="mailid.invalid && mailid.touched" class="error">
+  <span *ngIf="mailid.errors?.['required']">Email is required.</span>
+  <span *ngIf="mailid.errors?.['pattern']">Invalid Email Format</span>
+</div>
+
+     <div *ngIf="userType === 'Doctor'">
+      <select name="speciality" ngModel #speciality="ngModel" required>
+        <option value="" disabled selected>Select Speciality</option>
+        <option *ngFor="let spec of specialties" [value]="spec">{{ spec }}</option>
+      </select>
+      <div *ngIf="speciality.invalid && speciality.touched" class="error">Speciality is required.</div>
+    </div>
+    <input name="phonenumber" ngModel #phonenumber="ngModel" placeholder="Phone Number" required pattern="^[0-9]{10}$" type="tel"/>
+    <div *ngIf="phonenumber.invalid && phonenumber.touched" class="error">
+      <span *ngIf="phonenumber.errors?.['required']">Phone number is required.</span>
+      <span *ngIf="phonenumber.errors?.['pattern']">Phone number must be 10 digits.</span>
+    </div>
+    <input name="password" ngModel #password="ngModel" placeholder="Password" minlength="8" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" type="password" required/>
+     <div *ngIf="password.invalid && password.touched" class="error">
+  <span *ngIf="password.errors?.['required']">Password is required.</span>
+  <span *ngIf="password.errors?.['minlength']">Password must be at least 8 characters long.</span>
+  <span *ngIf="password.errors?.['pattern']">
+    Password must contain at least one uppercase letter, one number, and one special character.
+  </span>
+</div>
+    <input name="confirmPassword" ngModel #confirmPassword="ngModel" placeholder="Confirm Password"  type="password" minlength="8" required/>
+    <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="error">Confirm Password is required.</div>
+    
+   
     <button type="submit">Sign Up</button>
   </form>
 </div>
