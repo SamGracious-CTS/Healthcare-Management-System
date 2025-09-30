@@ -59,7 +59,7 @@ export class BookAppointment implements OnInit {
   bookAppointment(form: NgForm) {
     if (form.valid) {
       const paddedPatientId = 'P' + this.appointmentService.getNextPatientId();
-      const paddedDoctorId = 'D_' + this.patient.doctorName;
+      const paddedDoctorId = 'D_' + this.appointmentService.getNextDoctorId();
 
       const bookedPatient = {
         ...this.patient,
@@ -71,10 +71,9 @@ export class BookAppointment implements OnInit {
       this.submit = true;
       this.patient.time = '';
       this.showSlots = false;
+      alert('Thank you!, your appointment is booked successfully.');
       form.resetForm();
-    } else {
-      this.submit = false;
-    }
+    } 
   }
 
   ngOnInit() {

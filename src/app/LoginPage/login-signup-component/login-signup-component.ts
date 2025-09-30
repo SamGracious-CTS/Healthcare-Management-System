@@ -19,7 +19,10 @@ export class LoginSignupComponent {
   userType: string = '';
   specialties: string[] = ['Cardiologist', 'Neurologist', 'Dermatologist'];
 
-  constructor(private loginService: LoginService, private router: Router, private doctorService: DoctorService) {}
+  constructor(
+    private loginService: LoginService, 
+    private router: Router, 
+    private doctorService: DoctorService) {}
 
   switchForm() {
     this.showSignup = !this.showSignup;

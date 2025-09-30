@@ -17,42 +17,24 @@ import { AppointmentService } from '../../services/appointment-service';
 })
 export class UpcomingAppointments {
    
-  
-//   appointments: Patients[] = [];
- 
-
-//   constructor(private appointmentService: AppointmentService) {}
-
-//   ngOnInit() {
-   
-//     this.appointments = this.appointmentService.getAppointments();
-//  }
-//     cancelAppointments(patient: Patients): void {
-     
-//   this.appointmentService.removeAppointment(patient);
-//   this.appointments = this.appointmentService.getAppointments(); 
-// }
 
 appointments: Patients[] = [];
-  private lastData='';
+ 
+
+
   constructor(private appointmentService: AppointmentService) {}
+
  ngOnInit(): void {
     this.loadAppointments();
-    setInterval(() => {
-      const currentData = localStorage.getItem('appointments');
-      if (currentData !== this.lastData) {
-        this.lastData = currentData!;
-        this.loadAppointments();
-      }
-    }, 2000);
   }
+ 
   loadAppointments(): void {
     this.appointments = this.appointmentService.getAppointments();
   }
  
-    cancelAppointments(patient: Patients): void {    
-  this.appointmentService.removeAppointment(patient);
-  this.appointments = this.appointmentService.getAppointments();
+    cancelAppointments(patient: Patients): void {
+  this.appointmentService.updateAppointment(patient);
+  this.loadAppointments(); 
 }
   
 

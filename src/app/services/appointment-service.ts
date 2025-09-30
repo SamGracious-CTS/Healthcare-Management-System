@@ -39,4 +39,17 @@ getNextDoctorId(): string {
         app.time === patient.time)
     );
   }
+  updateAppointment(patient: Patients): void {
+  const index = this.appointments.findIndex(app =>
+    app.name === patient.name &&
+    app.phoneNumber === patient.phoneNumber &&
+    app.date === patient.date &&
+    app.time === patient.time
+  );
+ 
+  if (index !== -1) {
+    this.appointments[index].status = 'Cancelled';
+  }
+}
+ 
 }
