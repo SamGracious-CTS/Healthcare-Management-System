@@ -4,7 +4,7 @@ export interface Appointment {
   speciality: string;
   date: string;
   time: string;
-  status?: 'Confirmed' | 'Pending'|'Cancelled';
+  status?: 'Confirmed' | 'Pending' |'Cancelled';
 }
 export interface Patients extends Appointment {
   id: string;          
