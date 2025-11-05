@@ -186,7 +186,7 @@
                   class="list-group-item"
                   *ngFor="let slot of newTimeSlotsByDate[date]; index as i"
                 >
-                  {{ slot.startTime }} to {{ slot.endTime }}
+                  {{ slot.startTime | date : 'HH:mm' }} to {{ slot.endTime | date : 'HH:mm' }}
                   <span
                     style="color: red; cursor: pointer; float: right"
                     (click)="deleteTimeSlot(i, date)"
