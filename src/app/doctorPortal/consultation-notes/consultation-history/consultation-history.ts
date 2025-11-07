@@ -1,16 +1,18 @@
 import { Component, Input } from '@angular/core';
 
 //import { Patient, ConsultationRecord } from '../../../services/consultation';
-import { Patient, ConsultationRecord } from '../../../Model/consultationRecord';
+import { Patient } from '../../../Model/patient.model';
+import { ConsultationRecord } from '../../../Model/consultation-record.model';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-consultation-history',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './consultation-history.html',
-  styleUrl: './consultation-history.css'
+  styleUrls: ['./consultation-history.css']
 })
 export class ConsultationHistory {
 

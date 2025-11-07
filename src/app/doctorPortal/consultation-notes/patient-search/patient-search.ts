@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 //import { Patient} from '../../../services/consultation';
-import { Patient } from '../../../Model/consultationRecord';
+import { Patient } from '../../../Model/patient.model';
 
 
 import { CommonModule } from '@angular/common';
@@ -9,9 +9,10 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-patient-search',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './patient-search.html',
-  styleUrl: './patient-search.css'
+  styleUrls: ['./patient-search.css']
 })
 export class PatientSearch {
 

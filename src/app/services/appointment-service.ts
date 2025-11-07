@@ -1,55 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Patients } from '../Model/appointment';
+import { PatientAppointment } from '../Model/patient-appointment.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
-  private appointments: Patients[] = [];
+  private storageKey = 'appointments';
 
-  private patientCounter = 1;
-  private doctorCounter = 1;
-
-getNextPatientId(): string {
-  const id = this.patientCounter;
-  this.patientCounter++;
-  return id.toString().padStart(4, '0');
-}
-
-getNextDoctorId(): string {
-  const id = this.doctorCounter;
-  this.doctorCounter++;
-  return id.toString().padStart(4, '0');
-}
-
-  bookedAppointment(patient: Patients): Patients[] {
-    this.appointments.push(patient);
-    return this.appointments;
+  bookedAppointment(patient: PatientAppointment): PatientAppointment[] {
+    const appointments = this.getAppointments();
+    appointments.push(patient);
+    localStorage.setItem(this.storageKey, JSON.stringify(appointments));
+    return appointments;
   }
 
-  getAppointments(): Patients[] {
-    return this.appointments;
+  getAppointments(): PatientAppointment[] {
+    const data = localStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : [];
   }
 
-  removeAppointment(patient: Patients): void {
-    this.appointments = this.appointments.filter(app =>
+  removeAppointment(patient: PatientAppointment): void {
+    const appointments = this.getAppointments();
+    const updated = appointments.filter(app =>
       !(app.name === patient.name &&
         app.phoneNumber === patient.phoneNumber &&
         app.date === patient.date &&
         app.time === patient.time)
     );
+    localStorage.setItem(this.storageKey, JSON.stringify(updated));
   }
-  updateAppointment(patient: Patients): void {
-  const index = this.appointments.findIndex(app =>
-    app.name === patient.name &&
-    app.phoneNumber === patient.phoneNumber &&
-    app.date === patient.date &&
-    app.time === patient.time
-  );
- 
-  if (index !== -1) {
-    this.appointments[index].status = 'Cancelled';
-  }
-}
- 
 }

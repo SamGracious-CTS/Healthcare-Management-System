@@ -6,7 +6,7 @@
 
 <ul class="list-group">
     <li class="list-group-item" *ngFor="let patient of filteredPatients" (click)="onSelectPatient(patient)">
-        {{ patient.name }} ({{ patient.age }} years)
+        {{ patient.name }} ({{ patient.age }} years, {{ patient.gender }})
     </li>
 </ul>
 

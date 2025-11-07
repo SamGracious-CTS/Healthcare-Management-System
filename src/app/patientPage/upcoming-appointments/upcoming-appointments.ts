@@ -1,43 +1,38 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit} from '@angular/core';
-//import { Appointment, Patients } from '../Model/appointment';
-import { Appointment, Patients} from '../../Model/appointment';
-
-//import { AppointmentService } from '../services/appointment-service';
+import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../services/appointment-service';
-
-
-
+import { PatientAppointment } from '../../Model/patient-appointment.model';
 
 @Component({
   selector: 'app-upcoming-appointments',
-  imports: [CommonModule,],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './upcoming-appointments.html',
-  styleUrl: './upcoming-appointments.css',
+  styleUrls: ['./upcoming-appointments.css']
 })
-export class UpcomingAppointments {
-   
-
-appointments: Patients[] = [];
- 
-
+export class UpcomingAppointments implements OnInit {
+  appointments: PatientAppointment[] = [];
+  private lastData = '';
 
   constructor(private appointmentService: AppointmentService) {}
 
- ngOnInit(): void {
+  ngOnInit(): void {
     this.loadAppointments();
+    setInterval(() => {
+      const currentData = localStorage.getItem('appointments');
+      if (currentData !== this.lastData) {
+        this.lastData = currentData!;
+        this.loadAppointments();
+      }
+    }, 2000);
   }
- 
+
   loadAppointments(): void {
     this.appointments = this.appointmentService.getAppointments();
   }
- 
-    cancelAppointments(patient: Patients): void {
-  this.appointmentService.updateAppointment(patient);
-  this.loadAppointments(); 
+
+  cancelAppointments(patient: PatientAppointment): void {
+    this.appointmentService.removeAppointment(patient);
+    this.appointments = this.appointmentService.getAppointments();
+  }
 }
-  
-
-}
-
-

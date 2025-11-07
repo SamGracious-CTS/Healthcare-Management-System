@@ -12,10 +12,12 @@
         <span [ngClass]="{
           'status': true,
           'confirmed': appt.status === 'Confirmed',
+          'pending': appt.status === 'Pending',
           'cancelled': appt.status === 'Cancelled'
         }">{{ appt.status }}</span>
+        
       </p>
-      <button type="button" (click)="cancelAppointments(appt)" [disabled]="appt.status === 'Cancelled'">cancel</button>
+      <button type="button" (click)="cancelAppointments(appt)">cancel</button>
     </div>
   </div>
 </div>

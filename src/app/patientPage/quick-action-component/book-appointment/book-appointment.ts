@@ -1,23 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Appointment, Patients } from '../../../Model/appointment';
 import { AppointmentService } from '../../../services/appointment-service';
-import { DoctorService } from '../../../services/doctor-service';
-
-declare var bootstrap: any;
+import { PatientAppointment } from '../../../Model/patient-appointment.model';
 
 @Component({
   selector: 'app-book-appointment',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './book-appointment.html',
-  styleUrl: './book-appointment.css',
+  styleUrls: ['./book-appointment.css']
 })
-export class BookAppointment implements OnInit {
+export class BookAppointment {
   apptform: any;
-  constructor(private appointmentService: AppointmentService, private doctorService: DoctorService) {}
+  constructor(private appointmentService: AppointmentService) {}
 
-  patient: Partial<Patients> = {
+  patient: PatientAppointment = {
     name: '',
     gender: '',
     age: 0,
@@ -31,21 +29,22 @@ export class BookAppointment implements OnInit {
 
   specialties = ['Cardiologist', 'Neurologist', 'Dermatologist'];
 
-  doctorMap: { [key: string]: string[] } = {};
+  doctorMap: { [key: string]: string[] } = {
+    Cardiologist: ['Navya', 'Sam', 'Sohit'],
+    Neurologist: ['Rasgna', 'Vikas'],
+    Dermatologist: ['Preethi', 'Krishna', 'Robin']
+  };
 
   availableDoctors: string[] = [];
 
   onSpecialtyChange(): void {
-    const specialty = this.patient.speciality;
-    this.availableDoctors = specialty ? this.doctorMap[specialty] || [] : [];
+    this.availableDoctors = this.doctorMap[this.patient.speciality] || [];
     this.patient.doctorName = '';
   }
 
   timeSlots: string[] = [];
   showSlots = false;
   form: any;
-  todayString = new Date().toISOString().split('T')[0];
-  submit = false;
 
   onDateChange() {
     this.showSlots = true;
@@ -56,27 +55,18 @@ export class BookAppointment implements OnInit {
     this.patient.time = slot;
   }
 
+  todayString = new Date().toISOString().split('T')[0];
+  submit = false;
+
   bookAppointment(form: NgForm) {
     if (form.valid) {
-      const paddedPatientId = 'P' + this.appointmentService.getNextPatientId();
-      const paddedDoctorId = 'D_' + this.appointmentService.getNextDoctorId();
-
-      const bookedPatient = {
-        ...this.patient,
-        id: paddedPatientId,
-        doctorId: paddedDoctorId
-      } as Patients;
-
-      this.appointmentService.bookedAppointment(bookedPatient);
+      this.appointmentService.bookedAppointment(this.patient);
       this.submit = true;
       this.patient.time = '';
       this.showSlots = false;
-      alert('Thank you!, your appointment is booked successfully.');
       form.resetForm();
-    } 
-  }
-
-  ngOnInit() {
-    this.doctorMap = this.doctorService.getDoctors();
+    } else {
+      this.submit = false;
+    }
   }
 }

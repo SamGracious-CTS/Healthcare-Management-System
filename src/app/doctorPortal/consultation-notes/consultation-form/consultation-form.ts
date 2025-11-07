@@ -1,21 +1,22 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 //import { Patient, ConsultationRecord } from '../../../services/consultation';
-import { Patient, ConsultationRecord } from '../../../Model/consultationRecord';
+import { Patient } from '../../../Model/patient.model';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-consultation-form',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './consultation-form.html',
-  styleUrl: './consultation-form.css'
+  styleUrls: ['./consultation-form.css']
 })
 export class ConsultationForm {
 
   @Input() selectedPatient: Patient | null = null;
-  @Output() addConsultation = new EventEmitter<ConsultationRecord>();
+  @Output() addConsultation = new EventEmitter<{ notes: string; prescription: string }>();
 
   notes: string = '';
   prescription: string = '';
@@ -31,24 +32,11 @@ export class ConsultationForm {
       return;
     } 
 
-    const newRecord: ConsultationRecord = {
-      consultationId: 'C' + Math.floor(Math.random() * 1000),
-      patientId: this.selectedPatient.id,
-      patientName: this.selectedPatient.name,
-      date: new Date().toISOString().split('T')[0],
-      notes: this.notes,
-      prescription: this.prescription
-    }
-
-    this.addConsultation.emit(newRecord);
+    this.addConsultation.emit({ notes: this.notes, prescription: this.prescription });
 
     this.notes = '';
     this.prescription = '';
 
   }
-
-
-
-
 
 }
