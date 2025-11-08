@@ -27,35 +27,7 @@ export class ManageAvailability implements OnInit {
   ngOnInit(): void {
     this.getTimeSlots();
   }
-  // getFlattenedSlots(): { date: string; startTime: string; endTime: string; id: string }[] {
-  //   this.tableData = [];
 
-  //   this.newTimeSlotsByDate = this.availabilityService.getSavedSlots();
-
-  //   for (const date in this.newTimeSlotsByDate) {
-  //     const timeArray = this.newTimeSlotsByDate[date];
-
-  //     for (const time of timeArray) {
-  //       const alreadyExists = this.tableData.some(
-  //         (obj) =>
-  //           obj.date === date && obj.startTime === time.startTime && obj.endTime === time.endTime
-  //       );
-
-  //       if (alreadyExists) {
-  //         alert(`Entry for ${date} from: ${time.startTime} to: ${time.endTime} already present`);
-  //       } else {
-  //         this.tableData.push({
-  //           date,
-  //           startTime: time.startTime,
-  //           endTime: time.endTime,
-  //           id: time.id, // ✅ Include ID for edit/delete
-  //         });
-  //       }
-  //     }
-  //   }
-
-  //   return this.tableData;
-  // }
 
   getTimeSlots() {
     this.timeSlotsService.getTimeSlots().subscribe({
@@ -72,7 +44,8 @@ export class ManageAvailability implements OnInit {
   deleteTimeSlot(slot: any) {
     // this.availabilityService.deleteSlot(slot.date, slot.id);
     const payload = {
-      date: slot.date,
+      // date: slot.date,
+      date: new Date(slot.date).toISOString().split("T")[0],
       startTime: slot.startTime,
       endTime: slot.endTime,
     };

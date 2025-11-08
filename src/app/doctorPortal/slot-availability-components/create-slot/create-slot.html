@@ -186,7 +186,7 @@
                   class="list-group-item"
                   *ngFor="let slot of newTimeSlotsByDate[date]; index as i"
                 >
-                  {{ slot.startTime | date : 'HH:mm' }} to {{ slot.endTime | date : 'HH:mm' }}
+                  {{ slot.startTime}} to {{ slot.endTime }}
                   <span
                     style="color: red; cursor: pointer; float: right"
                     (click)="deleteTimeSlot(i, date)"
@@ -214,7 +214,7 @@
           class="btn btn-success"
           [ngClass]="{ 'disable-button': !isFormValid }"
           [disabled]="!isFormValid"
-          (click)="saveAvailability()"
+          (click)="((editSlot)?editTimeSlots():timeSlots('add'))"
         >
           {{ editSlot ? 'Update' : 'Save' }}
         </button>

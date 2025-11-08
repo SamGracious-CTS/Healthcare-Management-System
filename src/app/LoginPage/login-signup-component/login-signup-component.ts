@@ -6,13 +6,13 @@ import { LoginService } from '../../services/login-service';
 import { CommonModule } from '@angular/common';
 import { User } from '../../Model/userType';
 import { DoctorService } from '../../services/doctor-service';
-
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-login-signup-component',
   imports: [FormsModule, CommonModule],
   templateUrl: './login-signup-component.html',
-  styleUrl: './login-signup-component.css'
+  styleUrl: './login-signup-component.css',
 })
 export class LoginSignupComponent {
   showSignup = true;
@@ -20,26 +20,27 @@ export class LoginSignupComponent {
   specialties: string[] = ['Cardiologist', 'Neurologist', 'Dermatologist'];
 
   constructor(
-    private loginService: LoginService, 
-    private router: Router, 
-    private doctorService: DoctorService) {}
+    private loginService: LoginService,
+    private router: Router,
+    private doctorService: DoctorService,
+    private authService: AuthService
+  ) {}
 
   switchForm() {
     this.showSignup = !this.showSignup;
   }
 
   onEmailChange(value: string) {
-  if (value.endsWith('@doctor.com')) {
-    this.userType = 'Doctor';
-  } else if (value.endsWith('@gmail.com')) {
-    this.userType = 'Patient';
-  } else if (value.endsWith('@admin.com')) {
-    this.userType = 'Admin';
-  } else {
-    this.userType = '';
+    if (value.endsWith('@doctor.com')) {
+      this.userType = 'Doctor';
+    } else if (value.endsWith('@gmail.com')) {
+      this.userType = 'Patient';
+    } else if (value.endsWith('@admin.com')) {
+      this.userType = 'Admin';
+    } else {
+      this.userType = '';
+    }
   }
-}
-
 
   onSignup(signupForm: NgForm) {
     const { name, mailid, phonenumber, password, confirmPassword, speciality } = signupForm.value;
@@ -56,7 +57,7 @@ export class LoginSignupComponent {
       mailid,
       phonenumber,
       password,
-      userType: this.userType
+      userType: this.userType,
     };
     if (this.userType === 'Doctor') {
       user.speciality = speciality;
@@ -69,39 +70,69 @@ export class LoginSignupComponent {
     this.showSignup = false;
   }
 
- onLogin(loginForm: NgForm) {
-  const { mailid, password } = loginForm.value;
-  const isValid = this.loginService.validateUser(mailid, password);
+  //  onLogin(loginForm: NgForm) {
+  //   const { mailid, password } = loginForm.value;
+  //   const isValid = this.loginService.validateUser(mailid, password);
 
-  if (!isValid) {
-    alert('Invalid credentials');
-    return;
+  //   if (!isValid) {
+  //     alert('Invalid credentials');
+  //     return;
+  //   }
+
+  //   const user = this.loginService.getUser(mailid);
+  //   const name = user?.name;
+  //   let role = '';
+
+  //   // You can store name in a service or pass via queryParams only
+  //   if (mailid.endsWith('@admin.com')) {
+  //     role = 'Admin';
+  //     this.router.navigate(['/admin-dashboard'], {
+  //       queryParams: { userName: name, role }
+  //     });
+  //   } else if (mailid.endsWith('@doctor.com')) {
+  //     role = 'Doctor';
+  //     this.router.navigate(['/doctor-page'], {
+  //       queryParams: { userName: name, role }
+  //     });
+  //   } else if (mailid.endsWith('@gmail.com')) {
+  //     role = 'Patient';
+  //     this.router.navigate(['/patient-page'], {
+  //       queryParams: { userName: name, role }
+  //     });
+  //   } else {
+  //     alert('Unknown role');
+  //   }
+  // }
+  onLogin(loginForm: NgForm) {
+    const { mailid, password } = loginForm.value;
+
+    this.authService.login(mailid, password).subscribe({
+      next: (res) => {
+        // Save token and role from response
+        this.authService.saveToken(res);
+        const role = res.role;
+        const name = res.data?.name; // Assuming backend sends user details in 'data'
+
+        // Navigate based on role
+        if (role === 'Admin') {
+          this.router.navigate(['/admin-dashboard'], {
+            queryParams: { userName: name, role },
+          });
+        } else if (role === 'Doctor') {
+          this.router.navigate(['/doctor-page'], {
+            queryParams: { userName: name, role },
+          });
+        } else if (role === 'Patient') {
+          this.router.navigate(['/patient-page'], {
+            queryParams: { userName: name, role },
+          });
+        } else {
+          alert('Unknown role');
+        }
+      },
+      error: (err) => {
+        alert(err.error.message);
+      },
+    });
   }
-
-  const user = this.loginService.getUser(mailid);
-  const name = user?.name;
-  let role = '';
-
-  // You can store name in a service or pass via queryParams only
-  if (mailid.endsWith('@admin.com')) {
-    role = 'Admin';
-    this.router.navigate(['/admin-dashboard'], {
-      queryParams: { userName: name, role }
-    });
-  } else if (mailid.endsWith('@doctor.com')) {
-    role = 'Doctor';
-    this.router.navigate(['/doctor-page'], {
-      queryParams: { userName: name, role }
-    });
-  } else if (mailid.endsWith('@gmail.com')) {
-    role = 'Patient';
-    this.router.navigate(['/patient-page'], {
-      queryParams: { userName: name, role }
-    });
-  } else {
-    alert('Unknown role');
-  }
-}
-
-
 }
