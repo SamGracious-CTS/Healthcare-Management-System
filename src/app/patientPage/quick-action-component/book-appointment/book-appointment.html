@@ -1,75 +1,85 @@
 <div class="container shadow" >
 <form (ngSubmit)="bookAppointment(apptform)" #apptform="ngForm">
   <div>
-  <label>Patient Name:</label>
-  <input type="text" id="name" name="Pname" ngModel [(ngModel)]="patient.name" #name="ngModel" required>
-  <small *ngIf="name.invalid && name.touched " class="error">patient name is required</small>
+    <label>Patient Name:</label>
+    <input type="text" id="name" name="Pname" ngModel [(ngModel)]="patient.name" #name="ngModel" required>
+    <small *ngIf="name.invalid && name.touched " class="error">patient name is required</small>
   </div>
-<div style="display: flex; gap: 10px; padding-top: 15px;">
-  <label for ="gender" >Gender:</label>
-  <input type="radio" name="gender" value="male" id="male"  ngModel  [(ngModel)]="patient.gender" #gender="ngModel" required>
-  <label>Male</label>
-  <input type="radio" name="gender" value="female" id="female" ngModel  [(ngModel)]="patient.gender" #gender="ngModel" required>
-  <label>Female</label><br>
-  <small *ngIf="gender.invalid && gender.touched" class="error"></small>
-  </div>
+
   <div style="display: flex; gap: 10px; padding-top: 15px;">
-  <label for="age" >Age:</label>
-      <input type="number" id="age" name="Age" ngModel [(ngModel)]="patient.age">
-      </div>
-      <div style="padding-top: 15px;">
-  <label>Phone Number:</label><br>
-  <input type="tel" id="phno" name="Phno" minlength="10" maxlength="10" ngModel [(ngModel)]="patient.phoneNumber" #phno="ngModel" required>
-  <small *ngIf=" phno.invalid && phno.touched" class="error">*please enter your phone number</small>
+    <label for ="gender" >Gender:</label>
+    <input type="radio" name="gender" value="male" id="male"  ngModel  [(ngModel)]="patient.gender" #gender="ngModel" required>
+    <label>Male</label>
+    <input type="radio" name="gender" value="female" id="female" ngModel  [(ngModel)]="patient.gender" #gender="ngModel" required>
+    <label>Female</label><br>
+    <small *ngIf="gender.invalid && gender.touched" class="error"></small>
   </div>
+
+  <div style="display: flex; gap: 10px; padding-top: 15px;">
+    <label for="age" >Age:</label>
+    <input type="number" id="age" name="Age" ngModel [(ngModel)]="patient.age">
+  </div>
+
+  <div style="padding-top: 15px;">
+    <label>Phone Number:</label><br>
+    <input type="tel" id="phno" name="Phno" minlength="10" maxlength="10" ngModel [(ngModel)]="patient.phoneNumber" #phno="ngModel" required>
+    <small *ngIf=" phno.invalid && phno.touched" class="error">*please enter your phone number</small>
+  </div>
+
   <div style="display: flex; align-items: center; gap:10px; padding-top: 15px;">
-  <div>
-    <label>Specialist:</label>
-    <select name="specialty" ngModel [(ngModel)]="patient.speciality" (change)="onSpecialtyChange()" required>
-      <option value="">--Select--</option>
-      <option *ngFor="let spec of specialties" [value]="spec">{{ spec }}</option>
-    </select>
+    <div>
+      <label>Specialist:</label>
+      <select name="specialty" ngModel [(ngModel)]="patient.speciality" (change)="onSpecialtyChange()" required>
+        <option value="">--Select--</option>
+        <option *ngFor="let spec of specialties" [value]="spec">{{ spec }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Doctor:</label>
+      <!-- value is registrationNumber; label shows name -->
+      <select name="doctorReg" ngModel [(ngModel)]="patient.registrationNumber"
+              (ngModelChange)="onDoctorChange($event)" #dctName="ngModel" required>
+        <option value="">--Select--</option>
+        <option *ngFor="let doctor of availableDoctors" [value]="doctor.registrationNumber">
+          {{ doctor.name }} ({{ doctor.registrationNumber }})
+        </option>
+      </select>
+      <small *ngIf="dctName.invalid && dctName.touched" class="error">*please select doctor</small>
+    </div>
   </div>
- 
-  <div>
-    <label>Doctor Name:</label>
-    <select name="doctorName" ngModel [(ngModel)]="patient.doctorName" #dctName="ngModel" required>
-      <option value="">--Select--</option>
-      <option *ngFor="let doc of availableDoctors" [value]="doc">{{ doc }}</option>
+
+  <div style="padding-top: 15px;">
+    <label>Date:</label>
+    <select name="dateSelect" ngModel [(ngModel)]="patient.date" (ngModelChange)="onDateDropdownChange($event)" #date="ngModel" required>
+      <option value="">--Select date--</option>
+      <option *ngFor="let d of dateOptions" [value]="d.value">{{ d.label }}</option>
     </select>
-    <small *ngIf="dctName.invalid && dctName.touched" class="error">*please select doctor</small>
+    <small *ngIf="date.invalid && date.touched" class="error">*please select the date</small>
   </div>
-</div>
- 
-        <div  style="padding-top: 15px;">
-        <label>Date:</label>
-        <input type="date" id="date" name="Date"
-       [min]="todayString" ngModel [(ngModel)]="patient.date" (change)="onDateChange()" #date="ngModel" required>
-        <small *ngIf="date.invalid && date.touched" class="error">*please select the date</small>
-        </div>
-        <div  style="padding-top: 15px;" *ngIf="showSlots">
-        <label>Available Time Slots:</label>
-        <div class="slots" *ngFor="let slot of timeSlots">
-          <button type="button" (click)="selectSlot(slot)" [class.selected]="slot===patient.time"
-           required >{{slot}}</button>
-          <!-- <small *ngIf="btn.invalid &&btn.touched">*please select the time slot</small> -->
-       </div>
-        </div>
-       
-       
-     
-<input type="submit" value="Book Appointment" [disabled]="!apptform.valid" style="text-align: center; border-radius: 5px; padding:10px; margin-left: 100px;
- margin-top:20px" data-bs-toggle="modal" data-bs-target="#hello">
- 
+
+  <div style="padding-top: 15px;">
+    <label>Time Slot:</label>
+    <select name="slotSelect" ngModel [(ngModel)]="patient.time" (ngModelChange)="onSlotDropdownChange($event)" #slot="ngModel" required>
+      <option value="">--Select slot--</option>
+      <option *ngFor="let s of availableSlots" [value]="s.startTime">{{ s.startTime }} - {{ s.endTime }}</option>
+    </select>
+    <small *ngIf="slot.invalid && slot.touched" class="error">*please select time slot</small>
+  </div>
+
+  <input type="submit" value="Book Appointment" [disabled]="!apptform.valid" style="text-align: center; border-radius: 5px; padding:10px; margin-left: 100px;
+  margin-top:20px" data-bs-toggle="modal" data-bs-target="#hello">
+
 </form>
 </div>
+
 <div class="modal fade " id="hello" >
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 10px; right: 10px; border: none; background: none; font-size: 1.5rem;">&times;</button>
   <h2>Thank You!</h2>
   <h5>Your appointment has been booked Successfully..</h5>
- 
+
 </div>
 </div>
 </div>

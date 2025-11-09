@@ -14,7 +14,35 @@
     <input name="name" ngModel #name="ngModel" placeholder="Name" required />
     <div *ngIf="name.invalid && name.touched" class="error">Name is required.</div>
 
-<input name="mailid" ngModel #mailid="ngModel" placeholder="Email ID" required pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|doctor\.com|admin\.com)$"(ngModelChange)="onEmailChange($event)" />
+<input
+  name="age"
+  ngModel
+  #age="ngModel"
+  placeholder="Age"
+  type="number"
+  required
+  min="1"
+  max="120"
+/>
+<div *ngIf="age.invalid && age.touched" class="error">
+  <span *ngIf="age.errors?.['required']">Age is required.</span>
+  <span *ngIf="age.errors?.['min'] || age.errors?.['max']">Age must be between 1 and 120.</span>
+</div>
+
+<select
+  name="gender"
+  ngModel
+  #gender="ngModel"
+  required
+>
+  <option value="" disabled selected>Select Gender</option>
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+  <option value="Other">Other</option>
+</select>
+<div *ngIf="gender.invalid && gender.touched" class="error">Gender is required.</div>
+
+     <input name="mailid" ngModel #mailid="ngModel" placeholder="Email ID" required pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|doctor\.com|admin\.com)$"(ngModelChange)="onEmailChange($event)" />
 
      <div *ngIf="mailid.invalid && mailid.touched" class="error">
   <span *ngIf="mailid.errors?.['required']">Email is required.</span>
@@ -43,8 +71,8 @@
 </div>
     <input name="confirmPassword" ngModel #confirmPassword="ngModel" placeholder="Confirm Password"  type="password" minlength="8" required/>
     <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="error">Confirm Password is required.</div>
-    
-   
+
+
     <button type="submit">Sign Up</button>
   </form>
 </div>

@@ -1,43 +1,57 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit} from '@angular/core';
-//import { Appointment, Patients } from '../Model/appointment';
-import { Appointment, Patients} from '../../Model/appointment';
-
-//import { AppointmentService } from '../services/appointment-service';
+import { Component, OnInit } from '@angular/core';
+import { Appointment } from '../../Model/appointment';
 import { AppointmentService } from '../../services/appointment-service';
-
-
-
+import { BookAppointmentService } from '../../services/book-appointment-service';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-upcoming-appointments',
-  imports: [CommonModule,],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './upcoming-appointments.html',
-  styleUrl: './upcoming-appointments.css',
+  styleUrls: ['./upcoming-appointments.css'],
 })
-export class UpcomingAppointments {
-   
+export class UpcomingAppointments implements OnInit {
+  appointments: any[] = [];
 
-appointments: Patients[] = [];
- 
+  constructor(
+    private appointmentService: AppointmentService,
+    private bookAppointmentService: BookAppointmentService,
+    private authService: AuthService
+  ) {}
 
-
-  constructor(private appointmentService: AppointmentService) {}
-
- ngOnInit(): void {
-    this.loadAppointments();
+  ngOnInit(): void {
+    this.getAppointments();
   }
- 
-  loadAppointments(): void {
-    this.appointments = this.appointmentService.getAppointments();
+
+  cancelAppointments(appointment: any): void {
+    if (!appointment?.id) return;
+    if (!confirm('Are you sure you want to cancel this appointment?')) return;
+
+    this.bookAppointmentService.cancelAppointment(appointment.id).subscribe({
+      next: () => {
+        // refresh list
+        this.getAppointments();
+      },
+      error: (error) => {
+        console.error('Error cancelling appointment:', error);
+        alert('Failed to cancel appointment.');
+      }
+    });
   }
- 
-    cancelAppointments(patient: Patients): void {
-  this.appointmentService.updateAppointment(patient);
-  this.loadAppointments(); 
+
+  getAppointments() {
+    const patientId = this.authService.getUserId();
+    if (patientId) {
+      this.bookAppointmentService.getAppointmentsByPatientId(patientId).subscribe({
+        next: (appointments) => {
+          this.appointments = appointments;
+        },
+        error: (error) => {
+          console.error('Error fetching appointments:', error);
+        },
+      });
+    }
+  }
 }
-  
-
-}
-
-

@@ -1,5 +1,5 @@
 export interface Appointment {
- 
+
   doctorName: string;
   speciality: string;
   date: string;
@@ -7,12 +7,13 @@ export interface Appointment {
   status?: 'Confirmed' | 'Pending'|'Cancelled';
 }
 export interface Patients extends Appointment {
-  id: string;          
-  doctorId: string;     
+  id: string;
+  doctorId: string;
   name: string;
   gender: string;
   age: number;
   phoneNumber: string;
+  endTime?: string;
 }
 
-   
+

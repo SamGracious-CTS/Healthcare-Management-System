@@ -43,66 +43,51 @@ export class LoginSignupComponent {
   }
 
   onSignup(signupForm: NgForm) {
-    const { name, mailid, phonenumber, password, confirmPassword, speciality } = signupForm.value;
+    const { name, age, gender, mailid, phonenumber, password, confirmPassword, speciality } = signupForm.value;
+
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
+
     if (this.userType === 'Doctor' && (!speciality || speciality === '')) {
       alert('Speciality is required for doctors');
       return;
     }
-    const user: any = {
+
+    const userData = {
       name,
-      mailid,
-      phonenumber,
+      age,
+      gender,
+      email: mailid,
+      phoneNumber: phonenumber,
       password,
       userType: this.userType,
+      ...(this.userType === 'Doctor' && { speciality })
     };
-    if (this.userType === 'Doctor') {
-      user.speciality = speciality;
-      this.doctorService.addDoctor(name, speciality);
-    }
-    this.loginService.registerUser(user);
-    alert('Signup successful!');
-    signupForm.reset();
-    this.userType = '';
-    this.showSignup = false;
+
+    this.authService.signup(userData).subscribe({
+      next: (res) => {
+        alert('Signup successful! Please login.');
+        // this.authService.saveToken(res);
+
+        // // Navigate based on userType
+        // if (this.userType === 'Doctor') {
+        //   this.router.navigate(['/doctor-page']);
+        // } else if (this.userType === 'Patient') {
+        //   this.router.navigate(['/patient-page']);
+        // }
+
+        signupForm.reset();
+        this.userType = '';
+        this.showSignup = false;
+      },
+      error: (err) => {
+        alert(err.error.message || 'Signup failed');
+      }
+    });
   }
 
-  //  onLogin(loginForm: NgForm) {
-  //   const { mailid, password } = loginForm.value;
-  //   const isValid = this.loginService.validateUser(mailid, password);
-
-  //   if (!isValid) {
-  //     alert('Invalid credentials');
-  //     return;
-  //   }
-
-  //   const user = this.loginService.getUser(mailid);
-  //   const name = user?.name;
-  //   let role = '';
-
-  //   // You can store name in a service or pass via queryParams only
-  //   if (mailid.endsWith('@admin.com')) {
-  //     role = 'Admin';
-  //     this.router.navigate(['/admin-dashboard'], {
-  //       queryParams: { userName: name, role }
-  //     });
-  //   } else if (mailid.endsWith('@doctor.com')) {
-  //     role = 'Doctor';
-  //     this.router.navigate(['/doctor-page'], {
-  //       queryParams: { userName: name, role }
-  //     });
-  //   } else if (mailid.endsWith('@gmail.com')) {
-  //     role = 'Patient';
-  //     this.router.navigate(['/patient-page'], {
-  //       queryParams: { userName: name, role }
-  //     });
-  //   } else {
-  //     alert('Unknown role');
-  //   }
-  // }
   onLogin(loginForm: NgForm) {
     const { mailid, password } = loginForm.value;
 
