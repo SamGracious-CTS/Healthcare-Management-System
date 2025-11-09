@@ -47,15 +47,14 @@ export class TimeSlots {
   timeSlots(
     payload: {
       calendar: { date: string; availableSlots: { startTime: string; endTime: string }[] }[];
-    },
-    action?: string
+    }
   ): Observable<any> {
-    const url = `${BASE_URL}doctors/timeSlots/?registrationNumber=${this.doctorId}&action=${action}`;
+    const url = `${BASE_URL}doctors/timeSlots/?registrationNumber=${this.doctorId}`;
     return this.httpClient.put<any>(url, payload).pipe(
       retry(1),
       catchError((error) => {
         console.error('Error creating Time Slot', error);
-        return throwError(() => new Error(`Failed to ${action} Time Slot`));
+        return throwError(() => new Error(`Failed to Create Time Slot`));
       })
     );
   }

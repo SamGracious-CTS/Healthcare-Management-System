@@ -10,7 +10,6 @@ import { TimeSlots } from '../../../services/time-slots';
   templateUrl: './create-slot.html',
   styleUrl: './create-slot.css',
 })
-
 export class CreateSlot implements OnInit {
   @Output() closeModal = new EventEmitter();
   @Output() loadTable = new EventEmitter();
@@ -44,7 +43,6 @@ export class CreateSlot implements OnInit {
         startTime: this.startTime,
         endTime: this.endTime,
       };
-
     }
     this.orignalDate = this.selectedDate;
   }
@@ -123,50 +121,29 @@ export class CreateSlot implements OnInit {
     this.isEdit = false;
   }
 
-  // saveAvailability() {
-  //   if (!this.hasTimeSlots && !this.editSlot) return;
 
-  //   if (this.editSlot) {
-  //     this.newTimeSlotsByDate[this.selectedDate] = [
-  //       { startTime: this.startTime, endTime: this.endTime },
-  //     ];
-  //     const payload = this.buildPayload();
-  //     console.log('Final Payload:', payload);
-  //     // this.createTimeSlot(payload);
-  //     this.timeSlotsService.deleteTimeSlot(this.slotData).subscribe({
-  //       next: (response) => {
-  //         console.log('Slots:', response);
-  //       },
-  //       error: (err) => {
-  //         console.error('Error fetching time slots:', err);
-  //       },
-  //     });
-  //   }
-  //   // } else {
-  //   //   const payload = this.buildPayload();
-  //   //   console.log('Final Payload:', payload);
-  //   //   this.createTimeSlot(payload);
-  //   // }
-  //   const payload = this.buildPayload();
-  //   console.log('Final Payload:', payload);
-  //   this.createTimeSlot(payload);
-  // }
-  timeSlots(action?:string) {
-    // if (!this.editSlot) return;
+  timeSlots() {
 
-    // Update slots for selected date
     this.newTimeSlotsByDate[this.selectedDate] = [
       { startTime: this.startTime, endTime: this.endTime },
     ];
 
-    // Build payload
     const payload = this.buildPayload();
     console.log('Final Payload:', payload);
 
-    // Call service
-    this.timeSlotsService.timeSlots(payload,action).subscribe({
+    this.timeSlotsService.timeSlots(payload).subscribe({
       next: (response) => {
         console.log(`Edit action successful:`, response);
+        if (response.rejectedSlots && response.rejectedSlots.length > 0) {
+          const rejectedMessage = response.rejectedSlots
+            .map(
+              (slot: any) =>
+                `Date: ${slot.date}, Time: ${slot.startTime}-${slot.endTime}\nReason: ${slot.reason}`
+            )
+            .join('\n\n');
+
+          alert(`Some slots were not created:\n\n${rejectedMessage}`);
+        }
         this.loadTable.emit();
         this.newTimeSlotsByDate = {};
         this.cancel();
@@ -176,7 +153,7 @@ export class CreateSlot implements OnInit {
       },
     });
   }
-  editTimeSlots(){
+  editTimeSlots() {
     if (!this.editSlot) return;
     const newSlot = {
       date: this.selectedDate,

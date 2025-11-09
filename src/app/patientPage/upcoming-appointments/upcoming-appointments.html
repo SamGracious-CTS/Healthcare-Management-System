@@ -1,23 +1,33 @@
 <div class="appointments-container">
-    <h2>Upcoming Appointments</h2>
+  <h2>Upcoming Appointments</h2>
   <div class="appointment" *ngFor="let appt of appointments">
     <div class="details-left">
-      <p><strong>{{ appt.doctorName }}</strong></p>
+      <p>
+        <strong>{{ appt.doctorName }}</strong>
+      </p>
       <p>Specialty: {{ appt.specialty }}</p>
     </div>
     <div class="details-right">
       <p>Time: {{ appt.startTime }} - {{ appt.endTime }}</p>
-      <p>Date: {{ appt.date | date:'mediumDate' }}</p>
-      <p>Status:
-        <span [ngClass]="{
-          'status': true,
-          'confirmed': appt.status === 'confirmed',
-          'cancelled': appt.status === 'cancelled'
-        }">{{ appt.status }}</span>
+      <p>Date: {{ appt.date | date : 'mediumDate' }}</p>
+      <p>
+        Status:
+        <span
+          [ngClass]="{
+            status: true,
+            confirmed: appt.status === 'confirmed',
+            cancelled: appt.status === 'cancelled'
+          }"
+          >{{ appt.status }}</span
+        >
       </p>
-      <button type="button" (click)="cancelAppointments(appt)"
-              [disabled]="appt.status === 'cancelled'">Cancel</button>
+      <button
+        type="button"
+        (click)="cancelAppointments(appt)"
+        [disabled]="appt.status === 'cancelled'"
+      >
+        Cancel
+      </button>
     </div>
   </div>
 </div>
-

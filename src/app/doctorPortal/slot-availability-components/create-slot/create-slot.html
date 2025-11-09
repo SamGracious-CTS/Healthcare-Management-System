@@ -214,7 +214,7 @@
           class="btn btn-success"
           [ngClass]="{ 'disable-button': !isFormValid }"
           [disabled]="!isFormValid"
-          (click)="((editSlot)?editTimeSlots():timeSlots('add'))"
+          (click)="((editSlot)?editTimeSlots():timeSlots())"
         >
           {{ editSlot ? 'Update' : 'Save' }}
         </button>
