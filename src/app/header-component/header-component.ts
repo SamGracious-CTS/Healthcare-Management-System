@@ -23,4 +23,7 @@ ngOnInit(): void {
     this.role = params['role'];
   });
 }
+logout(){
+
+}
 }

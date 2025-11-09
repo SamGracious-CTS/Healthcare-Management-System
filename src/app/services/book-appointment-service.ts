@@ -47,14 +47,12 @@ export class BookAppointmentService {
     return this.http.get<Doctor[]>(`${BASE_URL}doctors/getDoctors`, { params });
   }
 
-  // Helper method to get a specific doctor
   getDoctorByRegistrationNumber(registrationNumber: string): Observable<Doctor> {
     return this.http.get<Doctor>(`${BASE_URL}doctors/getDoctors`, {
       params: { registrationNumber },
     });
   }
 
-  // Helper method to get doctors by specialty
   getDoctorsBySpecialty(specialty: string): Observable<Doctor[]> {
     return this.http.get<Doctor[]>(`${BASE_URL}doctors/getDoctors`, {
       params: { specialty },
@@ -76,16 +74,32 @@ export class BookAppointmentService {
     });
   }
 
-cancelAppointment(appointmentId: string): Observable<any> {
-  return this.http
-    .put(`${BASE_URL}cancel`, {}, {  // empty body
-      params: { appointmentId }
-    })
-    .pipe(
-      catchError((error) => {
-        console.error('Error cancelling appointment:', error);
-        return throwError(() => new Error('Failed to cancel appointment'));
-      })
-    );
-}
+  cancelAppointment(appointmentId: string): Observable<any> {
+    return this.http
+      .put(
+        `${BASE_URL}cancel`,
+        {},
+        {
+          // empty body
+          params: { appointmentId },
+        }
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Error cancelling appointment:', error);
+          return throwError(() => new Error('Failed to cancel appointment'));
+        })
+      );
+  }
+
+  getPreviousAppointmentsByPatientId(patientId: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${BASE_URL}previous`, {
+      params: { patientId },
+    });
+  }
+  getConsultations(registrationNumber: string,appointmentId:string): Observable<any> {
+    return this.http.get<any>(`${BASE_URL}consultations/appointment`, {
+      params: { registrationNumber,appointmentId },
+    });
+  }
 }
