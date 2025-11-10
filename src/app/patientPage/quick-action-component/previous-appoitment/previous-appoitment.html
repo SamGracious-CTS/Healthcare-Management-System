@@ -1,5 +1,14 @@
 <div class="appointments-container">
   <h2>Previous Appointments</h2>
+  <div class="filter-dropdown">
+    <label for="filterSelect"><strong>Filter by Status:</strong></label>
+    <select id="filterSelect" (change)="onFilterChange($event)">
+      <option value="all">All</option>
+      <option value="cancelled">Cancelled</option>
+      <option value="completed">Completed</option>
+      <option value="recent">Recently Completed</option>
+    </select>
+  </div>
   <div class="card-scroll-wrapper">
     <div class="card-container">
       <div

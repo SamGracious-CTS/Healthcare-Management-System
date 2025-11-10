@@ -5,7 +5,17 @@ import { PatientPortal } from './patientPage/patient-portal/patient-portal';
 import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-    {path:'', component: LoginSignupComponent,},
-    {path:'doctor-page', component:DoctorPage, canActivate: [authGuard], data: { roles: ['Doctor'] } },
-    {path:'patient-page', component: PatientPortal,  canActivate: [authGuard], data: { roles: ['Patient'] } }
+  { path: '', component: LoginSignupComponent },
+  {
+    path: 'doctor-page',
+    component: DoctorPage,
+    canActivate: [authGuard],
+    data: { roles: ['Doctor'] },
+  },
+  {
+    path: 'patient-page',
+    component: PatientPortal,
+    canActivate: [authGuard],
+    data: { roles: ['Patient'] },
+  },
 ];

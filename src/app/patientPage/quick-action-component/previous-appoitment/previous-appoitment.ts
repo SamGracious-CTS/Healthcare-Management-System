@@ -34,6 +34,7 @@ export class PreviousAppointment implements OnInit {
   appointments: any[] = [];
   selectedAppointment: any = null;
   showModal: boolean = false;
+  filteredAppointments: any[] = [];
 
   constructor(private appointment: Appointment,
     private appointmentService: BookAppointmentService
@@ -79,4 +80,26 @@ export class PreviousAppointment implements OnInit {
       );
     }
   }
+  filterAppointments(type: string): void {
+    const today = new Date();
+    if (type === 'cancelled') {
+      this.filteredAppointments = this.appointments.filter(appt => appt.status === 'cancelled');
+    } else if (type === 'completed') {
+      this.filteredAppointments = this.appointments.filter(appt => appt.status === 'completed');
+    } else if (type === 'recent') {
+      this.filteredAppointments = this.appointments.filter(appt => {
+        const apptDate = new Date(appt.date);
+        const diffDays = (today.getTime() - apptDate.getTime()) / (1000 * 3600 * 24);
+        return appt.status === 'completed' && diffDays <= 7;
+      });
+    } else {
+      this.filteredAppointments = this.appointments;
+    }
+
+  }
+   onFilterChange(event: Event): void {
+  const target = event.target as HTMLSelectElement;
+  const selectedValue = target?.value || 'all'; // fallback to 'all' if null
+  this.filterAppointments(selectedValue);
+}
 }

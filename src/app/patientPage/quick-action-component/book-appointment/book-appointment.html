@@ -1,6 +1,6 @@
 <div class="container shadow" >
 <form (ngSubmit)="bookAppointment(apptform)" #apptform="ngForm">
-  <div>
+  <!-- <div>
     <label>Patient Name:</label>
     <input type="text" id="name" name="Pname" ngModel [(ngModel)]="patient.name" #name="ngModel" required>
     <small *ngIf="name.invalid && name.touched " class="error">patient name is required</small>
@@ -24,7 +24,7 @@
     <label>Phone Number:</label><br>
     <input type="tel" id="phno" name="Phno" minlength="10" maxlength="10" ngModel [(ngModel)]="patient.phoneNumber" #phno="ngModel" required>
     <small *ngIf=" phno.invalid && phno.touched" class="error">*please enter your phone number</small>
-  </div>
+  </div> -->
 
   <div style="display: flex; align-items: center; gap:10px; padding-top: 15px;">
     <div>
