@@ -22,7 +22,10 @@
   </div>
 
   <div class="mt-4">
-    <app-book-appointment *ngIf="activeButton === 'book'"></app-book-appointment>
+    <app-book-appointment
+      *ngIf="activeButton === 'book'"
+      (booked)="onAppointmentBooked()">
+    </app-book-appointment>
     <app-previous-appointment *ngIf="activeButton === 'prev'"></app-previous-appointment>
   </div>
 </div>

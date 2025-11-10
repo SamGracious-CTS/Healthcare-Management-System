@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../../header-component/header-component';
 import { QuickActionComponent } from '../quick-action-component/quick-action-component';
 import { UpcomingAppointments } from '../upcoming-appointments/upcoming-appointments';
-import { HeaderComponent } from '../../header-component/header-component';
-
 
 @Component({
   selector: 'app-patient-portal',
-  imports: [QuickActionComponent, UpcomingAppointments, HeaderComponent], 
-  templateUrl: './patient-portal.html',
-  styleUrl: './patient-portal.css'
+  standalone: true,
+  imports: [CommonModule, HeaderComponent, QuickActionComponent, UpcomingAppointments],
+  templateUrl: './patient-portal.html'
 })
 export class PatientPortal {
+  @ViewChild(UpcomingAppointments) upcomingAppointments!: UpcomingAppointments;
 
-  
-
+  refreshAppointments() {
+    console.log('Refreshing appointments'); // Debug log
+    this.upcomingAppointments?.getAppointments();
+  }
 }

@@ -1,5 +1,5 @@
 declare var bootstrap: any;
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookAppointment } from './book-appointment/book-appointment';
@@ -22,16 +22,21 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class QuickActionComponent {
 
- showAvailabilityModal:boolean =false;
+  @Output() appointmentBooked = new EventEmitter<void>();
+
+  showAvailabilityModal:boolean =false;
   activeButton: string=''
 
 setActive(buttonName: string) {
 this.activeButton = buttonName
- 
+
 
 }
 
-
+onAppointmentBooked() {
+      console.log('Appointment booked event received');
+    this.appointmentBooked.emit();
+  }
 }
 
 

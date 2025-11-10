@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Appointment, Patients } from '../../../Model/appointment';
 import { AppointmentService } from '../../../services/appointment-service';
 import { BookAppointmentService } from '../../../services/book-appointment-service';
+import { AuthService } from '../../../services/auth-service';
 
 declare var bootstrap: any;
 
@@ -35,10 +36,13 @@ interface Doctor {
   styleUrls: ['./book-appointment.css'],
 })
 export class BookAppointment implements OnInit {
+  @Output() booked = new EventEmitter<void>();
+
   apptform: any;
   constructor(
     private appointmentService: AppointmentService,
-    private bookAppointmentService: BookAppointmentService
+    private bookAppointmentService: BookAppointmentService,
+    private authService: AuthService
   ) {}
 
   patient: Partial<Patients & { registrationNumber?: string; endTime?: string }> = {
@@ -177,14 +181,14 @@ export class BookAppointment implements OnInit {
   bookAppointment(form: NgForm) {
     if (!form.valid || !this.selectedDoctor) return;
 
-    const patientId = localStorage.getItem('userId');
+    const patientId = this.authService.getUserId();
     if (!patientId) {
       alert('You must be logged in to book an appointment.');
       return;
     }
 
     const appointmentData = {
-      patientId, // added patientId from localStorage
+      patientId,
       registrationNumber: this.selectedDoctor.registrationNumber,
       date: this.patient.date,
       startTime: this.patient.time,
@@ -193,14 +197,8 @@ export class BookAppointment implements OnInit {
 
     this.bookAppointmentService.bookAppointment(appointmentData).subscribe({
       next: (response) => {
-        this.submit = true;
-        this.patient.time = '';
-        this.patient.endTime = '';
-        this.patient.date = '';
-        this.showSlots = false;
-        this.availableSlots = [];
-        this.dateOptions = [];
         alert('Thank you! Your appointment is booked successfully.');
+        this.booked.emit(); // Verify this line exists
         form.resetForm();
       },
       error: (error) => {

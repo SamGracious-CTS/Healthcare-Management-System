@@ -22,6 +22,7 @@ import { Component, OnInit } from '@angular/core';
 import { Appointment } from '../../../services/appointment';
 import { CommonModule } from '@angular/common';
 import { BookAppointmentService } from '../../../services/book-appointment-service';
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-previous-appointment',
@@ -37,7 +38,8 @@ export class PreviousAppointment implements OnInit {
   filteredAppointments: any[] = [];
 
   constructor(private appointment: Appointment,
-    private appointmentService: BookAppointmentService
+    private appointmentService: BookAppointmentService,
+    private authServie: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -51,8 +53,8 @@ export class PreviousAppointment implements OnInit {
     this.showModal = true;
 
     // fetch consultation details and attach to selectedAppointment
-    if (appt?.registrationNumber && appt?.id) {
-      this.appointmentService.getConsultations(appt.registrationNumber, appt.id).subscribe({
+    if ( appt?._id) {
+      this.appointmentService.getPreviousConsultations(appt._id).subscribe({
         next: (consultation) => {
           this.selectedAppointment.consultation = consultation;
         },
@@ -68,7 +70,7 @@ export class PreviousAppointment implements OnInit {
     this.showModal = false;
   }
   getPreviousAppointments() {
-    const patientId = localStorage.getItem('userId');
+    const patientId = this.authServie.getUserId();
     if (patientId) {
       this.appointmentService.getPreviousAppointmentsByPatientId(patientId).subscribe(
         (data) => {

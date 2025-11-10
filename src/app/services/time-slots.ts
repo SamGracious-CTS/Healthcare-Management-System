@@ -2,28 +2,29 @@ import { BASE_URL } from './../../enviornment/enviornment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
+import { AuthService } from './auth-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TimeSlots {
-  constructor(private httpClient: HttpClient) {}
-  private doctorId = localStorage.getItem('doctorId');
-  // private GET_SLOTS_URL = 'http://localhost:5000/doctors/getSlots/690877343b1efccfe3aadf90'
-  private GET_SLOTS_URL = `${BASE_URL}doctors/getSlots/?registrationNumber=${this.doctorId}`;
-  private CREATE_SLOT_URL = 'http://localhost:5000/doctors/createSlot/690877343b1efccfe3aadf90';
-  private DELETE_SLOT_URL = 'http://localhost:5000/doctors/deleteSlot/690877343b1efccfe3aadf90';
+  constructor(
+    private httpClient: HttpClient,
+    private authservice: AuthService
+  ) {}
 
   getTimeSlots(): Observable<any> {
+    const doctorId = this.authservice.getDoctorId();
     console.log('Fetching time slots from backend...');
-    return this.httpClient.get<any>(this.GET_SLOTS_URL);
+    return this.httpClient.get<any>(`${BASE_URL}doctors/getSlots/?registrationNumber=${doctorId}`);
   }
 
   createTimeSlot(payload: {
     calendar: { date: string; availableSlots: { startTime: string; endTime: string }[] }[];
   }): Observable<any> {
+    const doctorId = this.authservice.getDoctorId();
     console.log('Sending create Time Slot payload to backend:', payload);
-    return this.httpClient.put<any>(this.CREATE_SLOT_URL, payload).pipe(
+    return this.httpClient.put<any>(`${BASE_URL}doctors/createSlot/?registrationNumber=${doctorId}`, payload).pipe(
       retry(1),
       catchError((error) => {
         console.error('Error creating Time Slot', error);
@@ -33,9 +34,9 @@ export class TimeSlots {
   }
 
   deleteTimeSlot(payload: any) {
+    const doctorId = this.authservice.getDoctorId();
     console.log('Deleting Time Slot with payload:', payload);
-    const url = `${BASE_URL}doctors/deleteSlot/?registrationNumber=${this.doctorId}`;
-    return this.httpClient.put<any>(url, payload).pipe(
+    return this.httpClient.put<any>(`${BASE_URL}doctors/deleteSlot/?registrationNumber=${doctorId}`, payload).pipe(
       retry(1),
       catchError((error) => {
         console.error('Error deleting Time Slot', error);
@@ -44,13 +45,11 @@ export class TimeSlots {
     );
   }
 
-  timeSlots(
-    payload: {
-      calendar: { date: string; availableSlots: { startTime: string; endTime: string }[] }[];
-    }
-  ): Observable<any> {
-    const url = `${BASE_URL}doctors/timeSlots/?registrationNumber=${this.doctorId}`;
-    return this.httpClient.put<any>(url, payload).pipe(
+  timeSlots(payload: {
+    calendar: { date: string; availableSlots: { startTime: string; endTime: string }[] }[];
+  }): Observable<any> {
+    const doctorId = this.authservice.getDoctorId();
+    return this.httpClient.put<any>(`${BASE_URL}doctors/timeSlots/?registrationNumber=${doctorId}`, payload).pipe(
       retry(1),
       catchError((error) => {
         console.error('Error creating Time Slot', error);
@@ -59,15 +58,12 @@ export class TimeSlots {
     );
   }
 
-editTimeSlots(previousSlot: any, newSlot: any): Observable<any> {
-  const url = `${BASE_URL}doctors/editSlots/?registrationNumber=${this.doctorId}`;
-
-  const body = {
-    previousSlot: previousSlot,
-    newSlot: newSlot
-  };
-
-  return this.httpClient.put<any>(url, body);
-}
-
+  editTimeSlots(previousSlot: any, newSlot: any): Observable<any> {
+    const doctorId = this.authservice.getDoctorId();
+    const body = {
+      previousSlot: previousSlot,
+      newSlot: newSlot
+    };
+    return this.httpClient.put<any>(`${BASE_URL}doctors/editSlots/?registrationNumber=${doctorId}`, body);
+  }
 }

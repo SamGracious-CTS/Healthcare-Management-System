@@ -102,4 +102,9 @@ export class BookAppointmentService {
       params: { registrationNumber,appointmentId },
     });
   }
+  getPreviousConsultations(appointmentId: string): Observable<any> {
+    return this.http.get<any>(`${BASE_URL}previousConsultation`, {
+      params: { appointmentId },
+    });
+  }
 }

@@ -28,42 +28,44 @@ export class AuthService {
     return this.http.post<any>(this.SIGNUP_URL, userData);
   }
 
-  // Save token in Local Storage
+  // Save token in Session Storage
   saveToken(res:any): void {
-    localStorage.setItem('token', res.token);
-    localStorage.setItem('role', res.role);
+    sessionStorage.setItem('token', res.token);
+    sessionStorage.setItem('role', res.role);
     if(!res?.data.registrationNumber){
-      localStorage.setItem('userId', res.data._id);
+      sessionStorage.setItem('userId', res.data._id);
     }else{
-      localStorage.setItem('doctorId', res.data.registrationNumber);
+      sessionStorage.setItem('doctorId', res.data.registrationNumber);
     }
   }
 
   // Get token
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
   getUserRole(): string | null {
-    return localStorage.getItem('role');
+    return sessionStorage.getItem('role');
   }
+
   getUserId(): string | null {
-    return localStorage.getItem('userId');
+    return sessionStorage.getItem('userId');
   }
+
   getDoctorId(): string | null {
-    return localStorage.getItem('doctorId');
+    return sessionStorage.getItem('doctorId');
   }
 
   // Remove token (Logout)
   clearToken(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('doctorId');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('doctorId');
   }
 
   // Check if user is logged in
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!sessionStorage.getItem('token');
   }
 }
