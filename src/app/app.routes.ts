@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginSignupComponent } from './LoginPage/login-signup-component/login-signup-component';
 import { DoctorPage } from './doctorPortal/doctor-page/doctor-page';
 import { PatientPortal } from './patientPage/patient-portal/patient-portal';
+import { HttpClientModule } from '@angular/common/http';
 
 export const routes: Routes = [
     {path:'', component: LoginSignupComponent},

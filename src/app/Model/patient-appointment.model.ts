@@ -7,5 +7,5 @@ export interface PatientAppointment {
   speciality: string;
   date: string;
   time: string;
-  status: 'Confirmed' | 'Pending' | 'Cancelled';
+  status: 'Confirmed' | 'Completed' | 'Cancelled';
 }

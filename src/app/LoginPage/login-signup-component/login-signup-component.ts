@@ -67,6 +67,31 @@ export class LoginSignupComponent {
     signupForm.reset();
     this.userType = '';
     this.showSignup = false;
+//     if (this.userType === 'Doctor') {
+//   user.speciality = speciality;
+
+//   this.doctorService.addDoctor({
+//     name,
+//     email: mailid,
+//     password,
+//     specialty: speciality,
+//     registrationNumber: 'TEMP123', // Add actual value if available
+//     registrationValidUpto: '2025-12-31' // Add actual value if available
+//   }).subscribe({
+//     next: (res) => {
+//       console.log('Doctor registered:', res);
+//       alert('Signup successful!');
+//       signupForm.reset();
+//       this.userType = '';
+//       this.showSignup = false;
+//     },
+//     error: (err) => {
+//       console.error('Error:', err);
+//       alert('Signup failed');
+//     }
+//   });
+// }
+
   }
 
  onLogin(loginForm: NgForm) {

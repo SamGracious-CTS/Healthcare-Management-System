@@ -1,9 +1,9 @@
 declare var bootstrap: any;
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookAppointment } from './book-appointment/book-appointment';
-import { PreviousAppointment} from './previous-appoitment/previous-appoitment';
+import { PreviousAppointment} from './previous-appointment/previous-appointment';
 import { Prescription } from './prescription/prescription';
 
 // import { ManageAvailability } from '../doctorPortal/slot-availability-components/manage-availability/manage-availability';
@@ -24,6 +24,7 @@ export class QuickActionComponent {
 
  showAvailabilityModal:boolean =false;
   activeButton: string=''
+  @Input() patientId!: string
 
 setActive(buttonName: string) {
 this.activeButton = buttonName

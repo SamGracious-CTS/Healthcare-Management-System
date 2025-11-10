@@ -15,7 +15,7 @@
     </button> -->
 </div> 
  <app-book-appointment *ngIf="activeButton==='book'"></app-book-appointment>
-<app-previous-appointment *ngIf="activeButton==='prev'"></app-previous-appointment>
+<app-previous-appointment *ngIf="activeButton==='prev'" [patientId]="patientId"></app-previous-appointment>
  <!-- <app-prescription *ngIf="activeButton==='pres'"></app-prescription> -->
   <!-- <app-manage-availability
     class="bg-light"

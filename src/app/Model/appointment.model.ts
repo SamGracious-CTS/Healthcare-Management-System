@@ -6,13 +6,14 @@ export interface Appointment {
   patientId: string;
   doctorId: string;
   date: string;
+   doctorName?: string;
+  speciality?: string;
   startTime: string;
   endTime: string;
   status: 'confirmed' | 'completed' | 'canceled';
   consultationId?: string;
 
-  doctorName?: string;
-  speciality?: string;
+ 
   patientName?: string;
 
 }

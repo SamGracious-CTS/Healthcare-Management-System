@@ -1,32 +1,46 @@
+// 
 import { Injectable } from '@angular/core';
-import { PatientAppointment } from '../Model/patient-appointment.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Appointment } from '../Model/appointment.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
-  private storageKey = 'appointments';
+  private baseUrl = 'http://localhost:5000/appointments';
 
-  bookedAppointment(patient: PatientAppointment): PatientAppointment[] {
-    const appointments = this.getAppointments();
-    appointments.push(patient);
-    localStorage.setItem(this.storageKey, JSON.stringify(appointments));
-    return appointments;
+  constructor(private http: HttpClient) {}
+bookAppointment(appointment: Appointment) {
+    return this.http.post('http://localhost:5000/appointments/bookAppointment', appointment);
+  }
+  // ✅ Book a new appointment
+  // bookAppointment(appointment: Appointment): Observable<Appointment> {
+  //   return this.http.post<Appointment>(`${this.baseUrl}/bookAppointment`, appointment);
+  // }
+
+  // ✅ Get all appointments
+  // getAllAppointments(): Observable<Appointment[]> {
+  //   return this.http.get<Appointment[]>(`${this.baseUrl}`);
+  // }
+
+  // ✅ Get previous appointments by patientId
+  getPreviousAppointments(patientId: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`http://localhost:5000/previous/${patientId}`);
   }
 
-  getAppointments(): PatientAppointment[] {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+  // ✅ Get upcoming appointments by patientId
+  getUpcomingAppointments(patientId: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/patient/${patientId}/upcoming`);
   }
 
-  removeAppointment(patient: PatientAppointment): void {
-    const appointments = this.getAppointments();
-    const updated = appointments.filter(app =>
-      !(app.name === patient.name &&
-        app.phoneNumber === patient.phoneNumber &&
-        app.date === patient.date &&
-        app.time === patient.time)
-    );
-    localStorage.setItem(this.storageKey, JSON.stringify(updated));
+  // ✅ Update an appointment (e.g., reschedule)
+  updateAppointment(appointmentId: string, updatedData: Partial<Appointment>): Observable<Appointment> {
+    return this.http.put<Appointment>(`http://localhost:5000/update/${appointmentId}`, updatedData);
+  }
+
+  // ✅ Cancel an appointment (status change only)
+  cancelAppointment(appointmentId: string): Observable<Appointment> {
+    return this.http.patch<Appointment>(`http://localhost:5000/cancel/${appointmentId}`, { status: 'canceled' });
   }
 }

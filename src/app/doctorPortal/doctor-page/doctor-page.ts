@@ -9,7 +9,7 @@ import { HeaderComponent } from '../../header-component/header-component';
 @Component({
   selector: 'app-doctor-page',
   standalone: true,
-  imports: [ConsultationNotes, AvailabilityComponent, NotesComponent, CommonModule, FormsModule, HeaderComponent],
+  imports: [ AvailabilityComponent, NotesComponent, CommonModule, FormsModule, HeaderComponent],
   templateUrl: './doctor-page.html',
   styleUrls: ['./doctor-page.css']
 })

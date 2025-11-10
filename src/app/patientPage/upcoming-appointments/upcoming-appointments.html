@@ -1,4 +1,4 @@
-<div class="appointments-container" >
+<!-- <div class="appointments-container" >
     <h2>Upcoming Appointments</h2>
   <div class="appointment" *ngFor="let appt of appointments">
     <div class="details-left">
@@ -6,19 +6,114 @@
       <p>Specialty: {{ appt.speciality }}</p>
     </div>
     <div class="details-right">
-      <p> {{ appt.time }}</p>
-      <p> {{ appt.date }}</p>
+     <div class="d-flex gap-2">
+       <p> {{ appt.date }}</p>
+      </div> 
+      <p> {{ appt.startTime}} - {{appt.endTime}}</p> 
+     
       <p>Status: 
         <span [ngClass]="{
           'status': true,
           'confirmed': appt.status === 'Confirmed',
-          'pending': appt.status === 'Pending',
           'cancelled': appt.status === 'Cancelled'
         }">{{ appt.status }}</span>
-        
       </p>
-      <button type="button" (click)="cancelAppointments(appt)">cancel</button>
+      <button type="button" (click)="cancelAppointments(appt)" [disabled]="appt.status === 'Cancelled'">Cancel</button>
+    </div>
+  </div>
+</div> -->
+
+<div class="appointments-container">
+  <h2>Upcoming Appointments</h2>
+
+  <div class="appointment" *ngFor="let appt of appointments">
+    <div class="details-left">
+      <p><strong>Dr.{{ appt.doctorName }}</strong></p>
+      <p>Specialty: {{ appt.speciality }}</p>
+    </div>
+
+    <div class="details-right">
+      <p>{{ appt.date }}</p>
+      <p>{{ appt.startTime }} - {{ appt.endTime }}</p>
+      <p>Status:
+        <span [ngClass]="{
+          'status': true,
+          'confirmed': appt.status === 'confirmed',
+          'cancelled': appt.status === 'canceled'
+        }">{{ appt.status }}</span>
+      </p>
+
+      <button type="button" class="btn btn-danger btn-sm" (click)="cancelAppointments(appt)" [disabled]="appt.status === 'canceled'">Cancel</button>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#editModal"
+        (click)="startEdit(appt)"
+        [disabled]="appt.status === 'canceled'"
+      >
+        <i class="fas fa-edit"></i> Edit
+      </button>
     </div>
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Appointment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body" *ngIf="selectedAppointment">
+        <div class="mb-3">
+          <label for="editDate" class="form-label">New Date:</label>
+          <input
+            type="date"
+            id="editDate"
+            class="form-control"
+            [(ngModel)]="updatedDate"
+            [min]="todayString"
+            (change)="onEditDateChange()"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Available Time Slots:</label>
+          <div *ngIf="editSlots.length > 0">
+            <div class="d-flex flex-wrap gap-2">
+              <button
+                *ngFor="let slot of editSlots"
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="selectEditSlot(slot)"
+                [class.active]="slot === (updatedStartTime + ' - ' + updatedEndTime)"
+              >
+                {{ slot }}
+              </button>
+            </div>
+          </div>
+          <div *ngIf="editSlots.length === 0">
+            <p class="text-muted">No slots available for selected date.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="saveEdit()"
+          data-bs-dismiss="modal"
+        >
+          Save Changes
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
