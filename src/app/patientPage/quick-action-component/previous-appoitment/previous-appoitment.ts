@@ -67,36 +67,65 @@ export class PreviousAppointment implements OnInit {
     this.selectedAppointment = null;
     this.showModal = false;
   }
-  getPreviousAppointments() {
-    const patientId = localStorage.getItem('userId');
-    if (patientId) {
-      this.appointmentService.getPreviousAppointmentsByPatientId(patientId).subscribe(
-        (data) => {
-          this.appointments = data;
-        },
-        (error) => {
-          console.error('Error fetching previous appointments:', error);
-        }
-      );
-    }
-  }
-  filterAppointments(type: string): void {
-    const today = new Date();
-    if (type === 'cancelled') {
-      this.filteredAppointments = this.appointments.filter(appt => appt.status === 'cancelled');
-    } else if (type === 'completed') {
-      this.filteredAppointments = this.appointments.filter(appt => appt.status === 'completed');
-    } else if (type === 'recent') {
-      this.filteredAppointments = this.appointments.filter(appt => {
-        const apptDate = new Date(appt.date);
-        const diffDays = (today.getTime() - apptDate.getTime()) / (1000 * 3600 * 24);
-        return appt.status === 'completed' && diffDays <= 7;
-      });
-    } else {
-      this.filteredAppointments = this.appointments;
-    }
+  // getPreviousAppointments() {
+  //   const patientId = localStorage.getItem('userId');
+  //   if (patientId) {
+  //     this.appointmentService.getPreviousAppointmentsByPatientId(patientId).subscribe(
+  //       (data) => {
+  //         this.appointments = data;
+  //       },
+  //       (error) => {
+  //         console.error('Error fetching previous appointments:', error);
+  //       }
+  //     );
+  //   }
+  // }
 
+ getPreviousAppointments() {
+  const patientId = localStorage.getItem('userId');
+  if (patientId) {
+    this.appointmentService.getPreviousAppointmentsByPatientId(patientId).subscribe(
+      (data) => {
+        // Only include appointments that are NOT cancelled
+        this.appointments = data.filter(appt => appt.status !== 'confirmed');
+        this.filteredAppointments = [...this.appointments]; // Show all by default
+      },
+      (error) => {
+        console.error('Error fetching previous appointments:', error);
+      }
+    );
   }
+}
+
+
+  // filterAppointments(type: string): void {
+  //   const today = new Date();
+  //   if (type === 'cancelled') {
+  //     this.filteredAppointments = this.appointments.filter(appt => appt.status === 'cancelled');
+  //   } else if (type === 'completed') {
+  //     this.filteredAppointments = this.appointments.filter(appt => appt.status === 'completed');
+  //   } else if (type === 'recent') {
+  //     this.filteredAppointments = this.appointments.filter(appt => {
+  //       const apptDate = new Date(appt.date);
+  //       const diffDays = (today.getTime() - apptDate.getTime()) / (1000 * 3600 * 24);
+  //       return appt.status === 'completed' && diffDays <= 7;
+  //     });
+  //   } else {
+  //     this.filteredAppointments = this.appointments;
+  //   }
+
+  // }
+
+  filterAppointments(type: string): void {
+  if (type === 'cancelled') {
+    this.filteredAppointments = this.appointments.filter(appt => appt.status === 'cancelled');
+  } else if (type === 'completed') {
+    this.filteredAppointments = this.appointments.filter(appt => appt.status === 'completed');
+  } else {
+    this.filteredAppointments = [...this.appointments]; // Show all non-cancelled
+  }
+}
+
    onFilterChange(event: Event): void {
   const target = event.target as HTMLSelectElement;
   const selectedValue = target?.value || 'all'; // fallback to 'all' if null
