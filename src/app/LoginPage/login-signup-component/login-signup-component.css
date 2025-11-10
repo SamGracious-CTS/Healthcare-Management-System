@@ -5,7 +5,13 @@
   padding: 30px;
   background-color: #f9f9f9;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18); /* Stronger shadow for floating effect */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.container:hover {
+  transform: translateY(-8px) scale(1.02); /* Slight lift and zoom */
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25); /* Deeper shadow */
 }
 
 /* Headings */
@@ -20,6 +26,18 @@ label {
   display: block;
   margin-top: 12px;
   font-weight: 600;
+  color: #444;
+}
+
+select[name="gender"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
   color: #444;
 }
 

@@ -5,7 +5,7 @@
   padding-bottom: 10px;
   scroll-snap-type: x mandatory;
 } */
- 
+
 /* .appointment-card {
     margin-top: 20px;
   min-width: 300px;
@@ -18,23 +18,23 @@
   scroll-snap-align: start;
   transition: box-shadow 0.3s ease;
 } */
- 
+
 /* .appointment-card:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   cursor: pointer;
 }
- 
+
 .card-header p {
   margin: 4px 0;
 }
- 
+
 .card-body {
   margin-top: 10px;
   background-color: #f9f9f9;
   padding: 10px;
   border-radius: 6px;
 }
- 
+
 /* Scrollable Navbar Styles */
 /* .navbar {
   display: flex;
@@ -54,16 +54,16 @@
   border-radius: 4px;
   transition: background-color 0.3s;
 }
- 
+
 .navbar a:hover {
   background-color: #34495e;
 }
- 
+
 /* Optional: Hide scrollbar for cleaner look */
 /* .navbar::-webkit-scrollbar {
   display: none;
 } */
- 
+
 .navbar {
   display: flex;
   overflow-x: auto;
@@ -73,7 +73,7 @@
   border-radius: 5px;
   z-index: 1; /* Ensure navbar stays below modal */
 }
- 
+
 .navbar a {
   display: inline-block;
   color: white;
@@ -83,16 +83,16 @@
   border-radius: 4px;
   transition: background-color 0.3s;
 }
- 
+
 .navbar a:hover {
   background-color: #34495e;
 }
- 
+
 /* Optional: Hide scrollbar for cleaner look */
 .navbar::-webkit-scrollbar {
   display: none;
 }
- 
+
 /* Appointment Cards */
 .card-container {
   display: flex;
@@ -101,7 +101,7 @@
   padding-bottom: 10px;
   scroll-snap-type: x mandatory;
 }
- 
+
 .appointment-card {
   margin-top: 20px;
   min-width: 300px;
@@ -115,22 +115,22 @@
   transition: box-shadow 0.3s ease;
   cursor: pointer;
 }
- 
+
 .appointment-card:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
- 
+
 .card-header p {
   margin: 4px 0;
 }
- 
+
 .card-body {
   margin-top: 10px;
   background-color: #f9f9f9;
   padding: 10px;
   border-radius: 6px;
 }
- 
+
 /* Modal Backdrop */
 .modal-backdrop {
   position: fixed;
@@ -144,7 +144,7 @@
   align-items: center;
   z-index: 999; /* Above navbar and cards */
 }
- 
+
 /* Modal Content */
 .modal-content {
   background-color: #fff;
@@ -158,19 +158,19 @@
   text-align: left;
   animation: fadeIn 0.3s ease-in-out;
 }
- 
+
 .modal-content h3 {
   margin-top: 0;
   font-size: 20px;
   color: #333;
 }
- 
+
 .modal-content p {
   margin: 8px 0;
   font-size: 16px;
   color: #555;
 }
- 
+
 .close-btn {
   margin-top: 15px;
   padding: 8px 14px;
@@ -180,8 +180,19 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  margin-right: 10px;
 }
- 
+.download-btn {
+  margin-top: 15px;
+  padding: 8px 14px;
+  background-color: #00ff66;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 /* Fade-in animation */
 @keyframes fadeIn {
   from {
@@ -193,8 +204,8 @@
     transform: scale(1);
   }
 }
- 
- 
+
+
 .modal-backdrop {
   position: fixed;
   top: 0; left: 0;
@@ -205,7 +216,7 @@
   align-items: center;
   z-index: 999;
 }
- 
+
 .modal-content {
   background-color: #fff;
   padding: 20px;
@@ -217,7 +228,7 @@
   position: relative;
   text-align: left;
 }
- 
+
 .close-btn {
   margin-top: 15px;
   padding: 8px 14px;
@@ -227,7 +238,7 @@
   border-radius: 6px;
   cursor: pointer;
 }
- 
+
 .modal-backdrop {
   position: fixed;
   top: 0; left: 0;
@@ -238,7 +249,7 @@
   align-items: center;
   z-index: 999;
 }
- 
+
 .modal-content {
   background: white;
   padding: 20px;
@@ -247,7 +258,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   z-index: 1000;
 }
- 
+
 .card-container {
   display: flex;
   flex-direction: row;
@@ -257,16 +268,16 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: thin; /* Firefox */
 }
- 
+
 .card-container::-webkit-scrollbar {
   height: 8px;
 }
- 
+
 .card-container::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 4px;
 }
- 
+
 .appointment-card {
   flex: 0 0 auto;
   min-width: 280px;
@@ -279,18 +290,18 @@
   scroll-snap-align: start;
   transition: box-shadow 0.3s ease;
   cursor: pointer;
- 
+
 }
- 
+
 .appointment-card {
-  border: 2px solid #9ed3e4; 
+  border: 2px solid #9ed3e4;
   border-radius: 10px;
   padding: 15px;
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
 }
- 
+
 /* Dimmed background overlay */
 .modal-backdrop {
   position: fixed;
@@ -304,54 +315,64 @@
   align-items: center;
   z-index: 9999; /* ensures it's above all other content */
 }
- 
- 
+
+
 .modal-box {
+  padding: 20px;
   background: #fff;
-  padding: 40px; /* Increased padding for breathing room */
-  border-radius: 10px;
-  width: 700px; /* Increased width from 320px */
-  max-width: 90%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 10000;
-  text-align: left;
+  border-radius: 8px;
+  max-width: 520px;
+  width: 100%;
 }
- 
-/* Modal heading */
-.modal-box h3 {
-  margin-top: 0;
-  font-size: 20px;
-  color: #333;
+
+/* action buttons row */
+.modal-box .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
 }
- 
-/* Modal content text */
-.modal-box p {
-  margin: 8px 0;
-  font-size: 16px;
-  color: #555;
-}
- 
-/* Close button */
-.close-btn {
-  margin-top: 15px;
-  padding: 8px 14px;
-  background-color: #007bff;
-  color: white;
+
+/* Close button (neutral) */
+.modal-box .close-btn {
+  background: #6c757d;
+  color: #fff;
   border: none;
+  padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
 }
- 
-/* Optional fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+.modal-box .close-btn:hover {
+  background: #5a6268;
+}
+
+/* Download button (primary) */
+.modal-box .download-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.modal-box .download-btn:hover {
+  background: #0069d9;
+}
+
+/* subtle press effect */
+.modal-box .modal-actions button:active {
+  transform: translateY(1px);
+}
+
+/* stack buttons on small screens */
+@media (max-width: 420px) {
+  .modal-box .modal-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+  .modal-box .modal-actions button {
+    width: 100%;
   }
 }

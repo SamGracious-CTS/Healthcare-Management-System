@@ -2,7 +2,6 @@
 // import { Component } from '@angular/core';
 // import { Appointment } from '../../../services/appointment';
 
-
 // @Component({
 //   selector: 'app-previous-appoitment',
 //   imports: [CommonModule],
@@ -29,7 +28,7 @@ import { AuthService } from '../../../services/auth-service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './previous-appoitment.html',
-  styleUrls: ['./previous-appoitment.css']
+  styleUrls: ['./previous-appoitment.css'],
 })
 export class PreviousAppointment implements OnInit {
   appointments: any[] = [];
@@ -37,7 +36,8 @@ export class PreviousAppointment implements OnInit {
   showModal: boolean = false;
   filteredAppointments: any[] = [];
 
-  constructor(private appointment: Appointment,
+  constructor(
+    private appointment: Appointment,
     private appointmentService: BookAppointmentService,
     private authServie: AuthService
   ) {}
@@ -53,14 +53,14 @@ export class PreviousAppointment implements OnInit {
     this.showModal = true;
 
     // fetch consultation details and attach to selectedAppointment
-    if ( appt?._id) {
+    if (appt?._id) {
       this.appointmentService.getPreviousConsultations(appt._id).subscribe({
         next: (consultation) => {
           this.selectedAppointment.consultation = consultation;
         },
         error: (err) => {
           console.error('Failed to load consultation details:', err);
-        }
+        },
       });
     }
   }
@@ -85,11 +85,11 @@ export class PreviousAppointment implements OnInit {
   filterAppointments(type: string): void {
     const today = new Date();
     if (type === 'cancelled') {
-      this.filteredAppointments = this.appointments.filter(appt => appt.status === 'cancelled');
+      this.filteredAppointments = this.appointments.filter((appt) => appt.status === 'cancelled');
     } else if (type === 'completed') {
-      this.filteredAppointments = this.appointments.filter(appt => appt.status === 'completed');
+      this.filteredAppointments = this.appointments.filter((appt) => appt.status === 'completed');
     } else if (type === 'recent') {
-      this.filteredAppointments = this.appointments.filter(appt => {
+      this.filteredAppointments = this.appointments.filter((appt) => {
         const apptDate = new Date(appt.date);
         const diffDays = (today.getTime() - apptDate.getTime()) / (1000 * 3600 * 24);
         return appt.status === 'completed' && diffDays <= 7;
@@ -97,11 +97,22 @@ export class PreviousAppointment implements OnInit {
     } else {
       this.filteredAppointments = this.appointments;
     }
-
   }
-   onFilterChange(event: Event): void {
-  const target = event.target as HTMLSelectElement;
-  const selectedValue = target?.value || 'all'; // fallback to 'all' if null
-  this.filterAppointments(selectedValue);
-}
+  onFilterChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedValue = target?.value || 'all'; // fallback to 'all' if null
+    this.filterAppointments(selectedValue);
+  }
+  download() {
+    this.appointmentService.downloadConsultation(this.selectedAppointment._id).subscribe((fileBlob) => {
+      const url = window.URL.createObjectURL(fileBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'consultation.txt'; // File name
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    });
+  }
 }

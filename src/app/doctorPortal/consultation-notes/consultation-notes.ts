@@ -66,7 +66,7 @@ export class ConsultationNotes implements OnInit {
   getConsultationHistory() {
     this.consultationApiService.getConsultationHistory().subscribe({
       next: (res) => {
-        this.consultationRecords = res
+        this.consultationRecords = res?.consultations ?? res ?? [];
         console.log('Loaded consultation history:', res.consultations);
       },
       error: (err) => {

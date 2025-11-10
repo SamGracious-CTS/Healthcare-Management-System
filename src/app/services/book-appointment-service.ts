@@ -107,4 +107,10 @@ export class BookAppointmentService {
       params: { appointmentId },
     });
   }
+
+downloadConsultation(appointmentId: string): Observable<Blob> {
+  const url = `${BASE_URL}downloadConsultation?appointmentId=${appointmentId}`;
+  return this.http.get(url, { responseType: 'blob' });
+}
+
 }
