@@ -1,9 +1,9 @@
 <header class="header-container">
-
-
-<h2>
-
-    {{role}} Portal</h2>
-<h3>Welcome, {{userName}}</h3>
-
+  <div class="header-content">
+    <div>
+      <h2>{{ role }} Portal</h2>
+      <h3>Welcome, {{ userName }}</h3>
+    </div>
+    <i class="fas fa-sign-out-alt logout-icon" (click)="logout()" title="Logout"></i>
+  </div>
 </header>

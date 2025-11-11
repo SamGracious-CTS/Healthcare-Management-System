@@ -1,6 +1,8 @@
+import { Availability } from './../src/app/services/availability';
 import { TestBed } from '@angular/core/testing';
 
-import { Availability } from './availability';
+// import { Availability } from './availability';
+// import{Availability}
 
 describe('Availability', () => {
   let service: Availability;
@@ -28,6 +30,19 @@ it('should add a slot', () => {
   });
 
 
+it('should delete a slot', () => {
+    const payload = {
+      '2025-09-25': [{ startTime: '09:00', endTime: '10:00' }]
+    };
+
+    service.addSlot(payload);
+    const slotId = service.getSavedSlots()['2025-09-25'][0].id;
+
+    service.deleteSlot('2025-09-25', slotId);
+    const slots = service.getSavedSlots();
+
+    expect(slots['2025-09-25'].length).toBe(0);
+  });
 
 
 

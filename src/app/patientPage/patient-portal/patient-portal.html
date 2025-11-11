@@ -1,3 +1,7 @@
 <app-header-component></app-header-component>
-<app-quick-action-component></app-quick-action-component>
+
+<app-quick-action-component
+  (appointmentBooked)="refreshAppointments()">
+</app-quick-action-component>
+
 <app-upcoming-appointments></app-upcoming-appointments>

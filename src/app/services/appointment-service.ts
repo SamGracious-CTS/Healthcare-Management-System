@@ -1,42 +1,55 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Patients } from '../Model/appointment';
-
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
-private storageKey = 'appointments';
-  // Save a new appointment
-  bookedAppointment(patient: Patients): Patients[] {
-    const appointments = this.getAppointments();
-    appointments.push(patient);
-    localStorage.setItem(this.storageKey, JSON.stringify(appointments));
-    return appointments;
-  }
+  private appointments: Patients[] = [];
 
-  // Retrieve all appointments
-  getAppointments(): Patients[] {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
-  }
+  private patientCounter = 1;
+  private doctorCounter = 1;
 
-  
-  
-  removeAppointment(patient: Patients): void {
-  const appointments = this.getAppointments(); 
-  const updated = appointments.filter(app => 
-    !(app.name === patient.name &&
-      app.phoneNumber === patient.phoneNumber &&
-      app.date === patient.date &&
-      app.time === patient.time)
-  );
-  localStorage.setItem(this.storageKey, JSON.stringify(updated)); 
+getNextPatientId(): string {
+  const id = this.patientCounter;
+  this.patientCounter++;
+  return id.toString().padStart(4, '0');
 }
 
+getNextDoctorId(): string {
+  const id = this.doctorCounter;
+  this.doctorCounter++;
+  return id.toString().padStart(4, '0');
+}
 
+  bookedAppointment(patient: Patients): Patients[] {
+    this.appointments.push(patient);
+    return this.appointments;
+  }
 
+  getAppointments(): Patients[] {
+    return this.appointments;
+  }
 
+  removeAppointment(patient: Patients): void {
+    this.appointments = this.appointments.filter(app =>
+      !(app.name === patient.name &&
+        app.phoneNumber === patient.phoneNumber &&
+        app.date === patient.date &&
+        app.time === patient.time)
+    );
+  }
+  updateAppointment(patient: Patients): void {
+  const index = this.appointments.findIndex(app =>
+    app.name === patient.name &&
+    app.phoneNumber === patient.phoneNumber &&
+    app.date === patient.date &&
+    app.time === patient.time
+  );
+ 
+  if (index !== -1) {
+    this.appointments[index].status = 'Cancelled';
+  }
+}
+ 
 }

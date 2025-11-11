@@ -1,13 +1,63 @@
 <div class="appointments-container">
-  <div class="card-container">
-    <div *ngFor="let appt of appointments" class="appointment-card">
-      <div class="card-header">
-        <p><strong>Date:</strong> {{ appt.date }}</p>
-        <p><strong>Doctor:</strong> Dr. {{ appt.doctorName }} ({{ appt.specialty }})</p>
+  <h2>Previous Appointments</h2>
+  <div class="filter-dropdown">
+    <label for="filterSelect"><strong>Filter by Status:</strong></label>
+    <select id="filterSelect" (change)="onFilterChange($event)">
+      <option value="all">All</option>
+      <option value="cancelled">Cancelled</option>
+      <option value="completed">Completed</option>
+      <option value="recent">Recently Completed</option>
+    </select>
+  </div>
+  <div class="card-scroll-wrapper">
+    <div class="card-container">
+      <div
+        *ngFor="let appt of appointments"
+        class="appointment-card"
+        (click)="openModal(appt)">
+        <p><strong>Date:</strong> {{ appt.date | date:'mediumDate' }}</p>
+        <p><strong>Doctor:</strong> {{ appt.doctorName }} ({{ appt.specialty }})</p>
+        <p><strong>Time:</strong> {{ appt.startTime }} - {{ appt.endTime }}</p>
         <p><strong>Status:</strong> {{ appt.status }}</p>
       </div>
     </div>
   </div>
 </div>
- 
- 
+
+<!-- Modal -->
+<div *ngIf="showModal" class="modal-backdrop">
+  <div class="modal-box">
+    <h3>Appointment Details</h3>
+    <p><strong>Date of Appointment:</strong> {{ selectedAppointment?.date | date:'mediumDate' }}</p>
+    <p><strong>Doctor Name:</strong> {{ selectedAppointment?.doctorName }}</p>
+    <p><strong>Time:</strong> {{ selectedAppointment?.startTime }} - {{ selectedAppointment?.endTime }}</p>
+
+    <!-- show notes / prescription from different possible response shapes -->
+    <ng-container *ngIf="selectedAppointment?.consultation as c">
+      <p *ngIf="c.notes || (c.consultations?.length && c.consultations[0]?.notes)">
+        <strong>Notes:</strong>
+        {{ c.notes ?? c.consultations?.[0]?.notes }}
+      </p>
+
+      <p *ngIf="c.prescription || (c.consultations?.length && c.consultations[0]?.prescription)">
+        <strong>Prescription:</strong>
+        {{ c.prescription ?? c.consultations?.[0]?.prescription }}
+      </p>
+    </ng-container>
+
+    <!-- fallback if service returned consultations array on root (e.g. { consultations: [...] }) -->
+    <ng-container *ngIf="selectedAppointment?.consultations as cs">
+      <p *ngIf="cs.length && (cs[0].notes)">
+        <strong>Notes:</strong> {{ cs[0].notes }}
+      </p>
+      <p *ngIf="cs.length && (cs[0].prescription)">
+        <strong>Prescription:</strong> {{ cs[0].prescription }}
+      </p>
+    </ng-container>
+
+    <div class="modal-actions">
+      <button class="close-btn" (click)="closeModal()">Close</button>
+      <button class="download-btn" (click)="download()">Download</button>
+    </div>
+  </div>
+</div>

@@ -1,62 +1,57 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit} from '@angular/core';
-//import { Appointment, Patients } from '../Model/appointment';
-import { Appointment, Patients} from '../../Model/appointment';
-
-//import { AppointmentService } from '../services/appointment-service';
+import { Component, OnInit } from '@angular/core';
+import { Appointment } from '../../Model/appointment';
 import { AppointmentService } from '../../services/appointment-service';
-
-
-
+import { BookAppointmentService } from '../../services/book-appointment-service';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-upcoming-appointments',
-  imports: [CommonModule,],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './upcoming-appointments.html',
-  styleUrl: './upcoming-appointments.css',
-  providers:[AppointmentService]
+  styleUrls: ['./upcoming-appointments.css'],
 })
-export class UpcomingAppointments {
-   
-  
-//   appointments: Patients[] = [];
- 
+export class UpcomingAppointments implements OnInit {
+  appointments: any[] = [];
 
-//   constructor(private appointmentService: AppointmentService) {}
+  constructor(
+    private appointmentService: AppointmentService,
+    private bookAppointmentService: BookAppointmentService,
+    private authService: AuthService
+  ) {}
 
-//   ngOnInit() {
-   
-//     this.appointments = this.appointmentService.getAppointments();
-//  }
-//     cancelAppointments(patient: Patients): void {
-     
-//   this.appointmentService.removeAppointment(patient);
-//   this.appointments = this.appointmentService.getAppointments(); 
-// }
+  ngOnInit(): void {
+    this.getAppointments();
+  }
 
-appointments: Patients[] = [];
-  private lastData='';
-  constructor(private appointmentService: AppointmentService) {}
- ngOnInit(): void {
-    this.loadAppointments();
-    setInterval(() => {
-      const currentData = localStorage.getItem('appointments');
-      if (currentData !== this.lastData) {
-        this.lastData = currentData!;
-        this.loadAppointments();
+  cancelAppointments(appointment: any): void {
+    if (!appointment?.id) return;
+    if (!confirm('Are you sure you want to cancel this appointment?')) return;
+
+    this.bookAppointmentService.cancelAppointment(appointment.id).subscribe({
+      next: () => {
+        // refresh list
+        this.getAppointments();
+      },
+      error: (error) => {
+        console.error('Error cancelling appointment:', error);
+        alert('Failed to cancel appointment.');
       }
-    }, 2000);
+    });
   }
-  loadAppointments(): void {
-    this.appointments = this.appointmentService.getAppointments();
+
+  getAppointments() {
+    const patientId = this.authService.getUserId();
+    if (patientId) {
+      this.bookAppointmentService.getAppointmentsByPatientId(patientId).subscribe({
+        next: (appointments) => {
+          this.appointments = appointments;
+        },
+        error: (error) => {
+          console.error('Error fetching appointments:', error);
+        },
+      });
+    }
   }
- 
-    cancelAppointments(patient: Patients): void {    
-  this.appointmentService.removeAppointment(patient);
-  this.appointments = this.appointmentService.getAppointments();
 }
-  
-
-}
-
-

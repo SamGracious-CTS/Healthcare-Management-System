@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 //import { Patient, ConsultationRecord } from '../../../services/consultation';
-import { Patient,ConsultationRecord } from '../../../services/consultation';
+import { Patient, ConsultationRecord } from '../../../Model/consultationRecord';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-consultation-form',
@@ -14,13 +15,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class ConsultationForm {
 
-  @Input() selectedPatient: Patient | null = null;
+  @Input() selectedPatient: any | null = null;
   @Output() addConsultation = new EventEmitter<ConsultationRecord>();
 
   notes: string = '';
   prescription: string = '';
+  constructor(private authServie: AuthService) {}
 
   submitConsultation() {
+    console.log("patient:", this.selectedPatient);
     if(!this.selectedPatient) {
       alert('Please select a patient first !!');
       return;
@@ -29,15 +32,16 @@ export class ConsultationForm {
     if(!this.notes || !this.prescription) {
       alert('Please fill both notes and presciption !!');
       return;
-    } 
+    }
 
-    const newRecord: ConsultationRecord = {
-      consultationId: 'C' + Math.floor(Math.random() * 1000),
-      patientId: this.selectedPatient.id,
-      patientName: this.selectedPatient.name,
-      date: new Date().toISOString().split('T')[0],
+    const newRecord: any = {
+      // consultationId: 'C' + Math.floor(Math.random() * 1000),
+      patientId: this.selectedPatient.patentId,
+      appointmentId: this.selectedPatient.appointmentId,
+      date: this.selectedPatient.date,
       notes: this.notes,
-      prescription: this.prescription
+      prescription: this.prescription,
+      registrationNumber: this.authServie.getDoctorId()
     }
 
     this.addConsultation.emit(newRecord);

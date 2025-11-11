@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-// import { DoctorDashboard } from '../../doctorPortal/doctor-dashboard/doctor-dashboard';
-
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,6 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './prescription.css'
 })
 export class Prescription {
- 
+
 
 }

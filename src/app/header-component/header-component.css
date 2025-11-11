@@ -15,6 +15,20 @@ h3{
     font-weight: bold;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.logout-icon {
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.3s ease;
+}
 
-/* Welcome message */
+.logout-icon:hover {
+  color: #f44336;
+}
