@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   private LOGIN_URL = `${BASE_URL}auth/login`;
+  private LOGOUT_URL = `${BASE_URL}auth/logout`;
   private SIGNUP_URL = `${BASE_URL}auth/signup`;
 
   constructor(private http: HttpClient) {}
@@ -67,5 +68,9 @@ export class AuthService {
   // Check if user is logged in
   isLoggedIn(): boolean {
     return !!sessionStorage.getItem('token');
+  }
+
+    logout() {
+    return this.http.post<any>(this.LOGOUT_URL, {});
   }
 }
