@@ -13,11 +13,11 @@ import { TimeSlots } from '../../../services/time-slots';
   styleUrl: './manage-availability.css',
 })
 export class ManageAvailability implements OnInit {
-  headings: string[] = ['S No.', 'Date', 'Start Time', 'End Time', 'Actions'];
+  headings: string[] = ['S No.', 'Date', 'Start Time', 'End Time','Booked', 'Actions'];
   showSlotForm = false;
 
   newTimeSlotsByDate: { [date: string]: { id: string; startTime: string; endTime: string }[] } = {};
-  tableData: { date: string; id: string; startTime: string; endTime: string }[] = [];
+  tableData: { date: string; id: string; startTime: string; endTime: string, isBooked: boolean }[] = [];
 
   isEditSlot: boolean = false;
   selectedSlot: { date: string; id: string; startTime: string; endTime: string } | null = null;

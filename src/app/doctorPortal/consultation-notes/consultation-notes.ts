@@ -40,25 +40,26 @@ export class ConsultationNotes implements OnInit {
     this.consultationApiService.createConsultation(record).subscribe({
       next: (res) => {
         console.log('Consultation saved successfully:', res);
+        this.selectedPatient = null;
         this.getConsultationHistory();
+        this.getAppointments();
       },
       error: (err) => {
         console.error('Failed to save consultation:', err);
-      }
+      },
     });
-
   }
 
   getAppointments() {
     this.consultationApiService.getConsultations().subscribe({
       next: (res) => {
-        this.patients = res
+        this.patients = res;
         console.log('Loaded consultations:', res);
       },
       error: (err) => {
         console.error('Failed to load consultations:', err);
         this.appointments = [];
-      }
+      },
     });
   }
   getConsultationHistory() {
@@ -70,7 +71,7 @@ export class ConsultationNotes implements OnInit {
       error: (err) => {
         console.error('Failed to load consultation history:', err);
         this.consultationRecords = [];
-      }
+      },
     });
   }
 }

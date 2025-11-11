@@ -22,7 +22,7 @@ export class LoginSignupComponent {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private doctorService: DoctorService,
+    // private doctorService: DoctorService,
     private authService: AuthService
   ) {}
 
@@ -89,17 +89,11 @@ export class LoginSignupComponent {
         const name = res.data?.name;
 
         if (role === 'Admin') {
-          this.router.navigate(['/admin-dashboard'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/admin-dashboard']);
         } else if (role === 'Doctor') {
-          this.router.navigate(['/doctor-page'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/doctor-page']);
         } else if (role === 'Patient') {
-          this.router.navigate(['/patient-page'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/patient-page']);
         } else {
           alert('Unknown role');
         }
