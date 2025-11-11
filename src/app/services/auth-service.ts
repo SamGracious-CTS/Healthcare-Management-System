@@ -29,7 +29,6 @@ export class AuthService {
     return this.http.post<any>(this.SIGNUP_URL, userData);
   }
 
-  // Save token in Session Storage
   saveToken(res:any): void {
     sessionStorage.setItem('token', res.token);
     sessionStorage.setItem('role', res.role);
@@ -65,7 +64,6 @@ export class AuthService {
     sessionStorage.removeItem('doctorId');
   }
 
-  // Check if user is logged in
   isLoggedIn(): boolean {
     return !!sessionStorage.getItem('token');
   }

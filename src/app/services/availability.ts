@@ -7,8 +7,6 @@ export class Availability {
   private savedSlots: any = {};
 
 
-
-  // Get the saved slots
   getSavedSlots(): any {
     console.log("savedSlots--",this.savedSlots)
     return this.savedSlots;
@@ -27,7 +25,6 @@ export class Availability {
         const id = `${date}-${slot.startTime}-${slot.endTime}`;
         const newSlot = { ...slot, id };
 
-        // Check for overlap
         const overlaps = this.savedSlots[date].some(
           (s: any) => slot.startTime < s.endTime && slot.endTime > s.startTime
         );
@@ -36,7 +33,7 @@ export class Availability {
           alert(
             `Slot overlaps with existing slot on ${date} from ${slot.startTime} to ${slot.endTime}`
           );
-          continue; // Skip adding this slot
+          continue;
         }
 
         this.savedSlots[date].push(newSlot);
@@ -51,14 +48,12 @@ export class Availability {
     newDate: string,
     updatedSlot: { id: string; startTime: string; endTime: string }
   ): void {
-    // Remove from old date array
     const oldSlots = this.savedSlots[oldDate];
     if (!oldSlots) return;
 
     const index = oldSlots.findIndex((s: any) => s.id === updatedSlot.id);
     if (index === -1) return;
 
-    // If date hasn't changed, just update in place
     if (oldDate === newDate) {
       const overlaps = oldSlots.some(
         (s: any) =>
@@ -74,22 +69,18 @@ export class Availability {
       return;
     }
 
-    // If date changed, remove from old date and add to new date
     oldSlots.splice(index, 1);
 
-    // Ensure new date array exists
     if (!this.savedSlots[newDate]) {
       this.savedSlots[newDate] = [];
     }
     const newSlots = this.savedSlots[newDate];
 
-    // Check for overlaps in new date
     const overlaps = newSlots.some(
       (s: any) => updatedSlot.startTime < s.endTime && updatedSlot.endTime > s.startTime
     );
     if (overlaps) {
       alert(`Cannot update slot: overlaps with another slot on ${newDate}`);
-      // Optionally, add back to old date if needed
       oldSlots.push(updatedSlot);
       return;
     }

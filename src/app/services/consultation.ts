@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConsultationRecord, Patient } from '../Model/consultationRecord';
-import { AppointmentService } from './appointment-service'; // adjust path as needed
+import { AppointmentService } from './appointment-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,6 @@ export class Consultation {
   constructor(private appointmentService: AppointmentService) {}
 
   getPatients(): Patient[] {
-    // Convert Patients from AppointmentService into Patient format
     const booked = this.appointmentService.getAppointments();
     return booked.map(p => ({
       id: p.id,

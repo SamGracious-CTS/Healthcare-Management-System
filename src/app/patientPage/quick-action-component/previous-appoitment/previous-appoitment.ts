@@ -1,22 +1,3 @@
-// import { CommonModule } from '@angular/common';
-// import { Component } from '@angular/core';
-// import { Appointment } from '../../../services/appointment';
-
-// @Component({
-//   selector: 'app-previous-appoitment',
-//   imports: [CommonModule],
-//   templateUrl: './previous-appoitment.html',
-//   styleUrl: './previous-appoitment.css'
-// })
-// export class PreviousAppoitment {
-// appointments: any[] = [];
-//   constructor(private appointment: Appointment) {}
-
-//   ngOnInit(): void {
-//     this.appointments = this.appointment.getAppointments();
-//   }
-// }
-
 import { Component, OnInit } from '@angular/core';
 import { Appointment } from '../../../services/appointment';
 import { CommonModule } from '@angular/common';
@@ -43,7 +24,6 @@ export class PreviousAppointment implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.appointments = this.appointment.getAppointments();
     this.getPreviousAppointments();
   }
 
@@ -52,7 +32,6 @@ export class PreviousAppointment implements OnInit {
     this.selectedAppointment = appt;
     this.showModal = true;
 
-    // fetch consultation details and attach to selectedAppointment
     if (appt?._id) {
       this.appointmentService.getPreviousConsultations(appt._id).subscribe({
         next: (consultation) => {
@@ -108,7 +87,7 @@ export class PreviousAppointment implements OnInit {
       const url = window.URL.createObjectURL(fileBlob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'consultation.txt'; // File name
+      a.download = 'consultation.txt';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

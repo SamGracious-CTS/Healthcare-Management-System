@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-//import { Patient} from '../../../services/consultation';
 import { Patient } from '../../../Model/consultationRecord';
 
 
@@ -31,6 +30,6 @@ export class PatientSearch {
   }
 
 
-  
+
 
 }

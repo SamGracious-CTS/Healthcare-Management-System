@@ -11,5 +11,4 @@ import { ConsultationNotes } from './doctorPortal/consultation-notes/consultatio
   styleUrl: './app.css'
 })
 export class App {
-  //protected readonly title = signal('project-1');
 }

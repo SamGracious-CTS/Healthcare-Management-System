@@ -30,8 +30,6 @@ export class ConsultationNotes implements OnInit {
   ngOnInit(): void {
     this.getAppointments();
     this.getConsultationHistory();
-    // this.patients = this.consultationService.getPatients();
-    // this.consultationRecords = this.consultationService.getConsultations();
   }
 
   onPatientSelected(patient: Patient) {
