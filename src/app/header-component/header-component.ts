@@ -23,8 +23,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.userName = params['userName'];
-      this.role = params['role'];
+      this.userName = sessionStorage.getItem('userName') || '';
+      this.role = sessionStorage.getItem('role') || '';
     });
   }
   logout() {

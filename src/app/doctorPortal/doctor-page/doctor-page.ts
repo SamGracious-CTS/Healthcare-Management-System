@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header-component/header-component';
 import { AppointmentService } from '../../services/appointment-service';
-//import { Patient } from '../../services/consultation';
 
 
 @Component({
@@ -19,16 +18,16 @@ export class DoctorPage {
   patientName :string | null = '';
 
    activeButton: string = '';
-   
+
 
   setActive(button: string) {
     this.activeButton = button;
   }
-  
 
 
-  
 
-  
+
+
+
 
 }

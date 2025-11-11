@@ -22,7 +22,7 @@ export class LoginSignupComponent {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private doctorService: DoctorService,
+    // private doctorService: DoctorService,
     private authService: AuthService
   ) {}
 
@@ -69,15 +69,6 @@ export class LoginSignupComponent {
     this.authService.signup(userData).subscribe({
       next: (res) => {
         alert('Signup successful! Please login.');
-        // this.authService.saveToken(res);
-
-        // // Navigate based on userType
-        // if (this.userType === 'Doctor') {
-        //   this.router.navigate(['/doctor-page']);
-        // } else if (this.userType === 'Patient') {
-        //   this.router.navigate(['/patient-page']);
-        // }
-
         signupForm.reset();
         this.userType = '';
         this.showSignup = false;
@@ -93,24 +84,16 @@ export class LoginSignupComponent {
 
     this.authService.login(mailid, password).subscribe({
       next: (res) => {
-        // Save token and role from response
         this.authService.saveToken(res);
         const role = res.role;
-        const name = res.data?.name; // Assuming backend sends user details in 'data'
+        const name = res.data?.name;
 
-        // Navigate based on role
         if (role === 'Admin') {
-          this.router.navigate(['/admin-dashboard'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/admin-dashboard']);
         } else if (role === 'Doctor') {
-          this.router.navigate(['/doctor-page'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/doctor-page']);
         } else if (role === 'Patient') {
-          this.router.navigate(['/patient-page'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/patient-page']);
         } else {
           alert('Unknown role');
         }

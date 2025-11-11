@@ -15,7 +15,7 @@ interface DoctorSlot {
 }
 
 interface DoctorCalendar {
-  date: any; // backend may return { $date: '...' } or string
+  date: any;
   availableSlots: DoctorSlot[];
 }
 
@@ -67,8 +67,8 @@ export class BookAppointment implements OnInit {
     'General Medicine',
   ];
 
-  doctors: any[] = []; // store all doctors
-  availableDoctors: any[] = []; // filtered doctors (objects)
+  doctors: any[] = [];
+  availableDoctors: any[] = [];
 
   selectedDoctor?: Doctor;
   availableSlots: DoctorSlot[] = [];
@@ -198,7 +198,7 @@ export class BookAppointment implements OnInit {
     this.bookAppointmentService.bookAppointment(appointmentData).subscribe({
       next: (response) => {
         alert('Thank you! Your appointment is booked successfully.');
-        this.booked.emit(); // Verify this line exists
+        this.booked.emit();
         form.resetForm();
       },
       error: (error) => {
@@ -215,7 +215,6 @@ export class BookAppointment implements OnInit {
   submit = false;
 
   ngOnInit() {
-    // Get all doctors on component initialization
     this.bookAppointmentService.getDoctors().subscribe({
       next: (doctors) => {
         this.doctors = doctors;

@@ -29,8 +29,6 @@ interface Appointment {
   providedIn: 'root',
 })
 export class BookAppointmentService {
-  // private readonly BASE_URL = 'http://localhost:5000';
-
   constructor(private http: HttpClient) {}
 
   getDoctors(specialty?: string, registrationNumber?: string): Observable<Doctor[]> {
