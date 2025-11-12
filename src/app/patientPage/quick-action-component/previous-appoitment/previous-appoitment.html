@@ -13,13 +13,13 @@
    <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
-  
+
   <div class="card-scroll-wrapper">
     <div class="card-container">
       <div
         *ngFor="let appt of filteredAppointments"
         class="appointment-card"
-        (click)="openModal(appt)">
+        (click)="appt.status === 'completed' ? openModal(appt) : null">
         <p><strong>Date:</strong> {{ appt.date | date:'mediumDate' }}</p>
         <p><strong>Doctor:</strong> {{ appt.doctorName }} ({{ appt.specialty }})</p>
         <p><strong>Time:</strong> {{ appt.startTime }} - {{ appt.endTime }}</p>

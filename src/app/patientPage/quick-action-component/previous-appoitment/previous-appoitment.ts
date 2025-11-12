@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Appointment } from '../../../services/appointment';
 import { CommonModule } from '@angular/common';
 import { BookAppointmentService } from '../../../services/book-appointment-service';
 import { AuthService } from '../../../services/auth-service';
@@ -19,7 +18,6 @@ export class PreviousAppointment implements OnInit {
   errorMessage : string = '';
 
   constructor(
-    private appointment: Appointment,
     private appointmentService: BookAppointmentService,
     private authServie: AuthService
   ) {}

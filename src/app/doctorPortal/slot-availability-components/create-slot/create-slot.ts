@@ -1,4 +1,3 @@
-import { Availability } from './../../../services/availability';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -28,7 +27,7 @@ export class CreateSlot implements OnInit {
   isEdit: boolean = false;
   previousSlot: { date: string; startTime: string; endTime: string } | null = null;
 
-  constructor(private availabilityService: Availability, private timeSlotsService: TimeSlots) {}
+  constructor(private timeSlotsService: TimeSlots) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -124,10 +123,10 @@ export class CreateSlot implements OnInit {
 
   timeSlots() {
 
-    this.newTimeSlotsByDate[this.selectedDate] = [
-      { startTime: this.startTime, endTime: this.endTime },
-    ];
-
+    // this.newTimeSlotsByDate[this.selectedDate] = [
+    //   { startTime: this.startTime, endTime: this.endTime },
+    // ];
+    console.log("before building payload", this.newTimeSlotsByDate);
     const payload = this.buildPayload();
     console.log('Final Payload:', payload);
 
@@ -198,13 +197,12 @@ export class CreateSlot implements OnInit {
     this.deleteTimeSlot(index, date);
   }
 
-  /** ✅ Converts old structure to new API format */
   private buildPayload() {
     const calendar = Object.keys(this.newTimeSlotsByDate).map((date) => {
       const availableSlots = this.newTimeSlotsByDate[date].map((slot) => {
         return {
-          startTime: slot.startTime, // Keep original value
-          endTime: slot.endTime, // Keep original value
+          startTime: slot.startTime,
+          endTime: slot.endTime,
         };
       });
       return { date, availableSlots };
@@ -213,13 +211,6 @@ export class CreateSlot implements OnInit {
     return { calendar };
   }
 
-  /** ✅ Converts date + time to ISO string */
-  private toISO(date: string, time: string): string {
-    const [hours, minutes] = time.split(':');
-    const d = new Date(date);
-    d.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-    return d.toISOString();
-  }
 
   formatDate(isoDate: string): string {
     const dateObj = new Date(isoDate);
@@ -229,12 +220,7 @@ export class CreateSlot implements OnInit {
     return `${year}-${month}-${day}`; // ✅ yyyy-mm-dd
   }
 
-  formatTime(isoDate: string): string {
-    const dateObj = new Date(isoDate);
-    const hours = String(dateObj.getHours()).padStart(2, '0');
-    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
-  }
+
 
   createTimeSlot(payload: any) {
     this.timeSlotsService.createTimeSlot(payload).subscribe({

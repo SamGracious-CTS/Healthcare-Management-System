@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Appointment } from '../../Model/appointment';
-import { AppointmentService } from '../../services/appointment-service';
 import { BookAppointmentService } from '../../services/book-appointment-service';
 import { AuthService } from '../../services/auth-service';
 
@@ -17,7 +15,6 @@ export class UpcomingAppointments implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private appointmentService: AppointmentService,
     private bookAppointmentService: BookAppointmentService,
     private authService: AuthService
   ) {}

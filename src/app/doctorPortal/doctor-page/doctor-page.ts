@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { ConsultationNotes } from "../consultation-notes/consultation-notes";
 import { AvailabilityComponent } from './availability-component/availability-component';
 import { NotesComponent } from './notes-component/notes-component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../header-component/header-component';
-import { AppointmentService } from '../../services/appointment-service';
 
 
 @Component({

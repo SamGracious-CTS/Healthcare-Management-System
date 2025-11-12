@@ -5,7 +5,6 @@ import { PatientSearch } from './patient-search/patient-search';
 import { ConsultationForm } from './consultation-form/consultation-form';
 import { ConsultationHistory } from './consultation-history/consultation-history';
 import { ConsultationRecord, Patient } from '../../Model/consultationRecord';
-import { Consultation } from '../../services/consultation';
 import { ConsultationApiService } from '../../services/consultation-api-service';
 import { Observable } from 'rxjs';
 
@@ -23,7 +22,6 @@ export class ConsultationNotes implements OnInit {
   consultationRecords: any = [];
 
   constructor(
-    private consultationService: Consultation,
     private consultationApiService: ConsultationApiService
   ) {}
 

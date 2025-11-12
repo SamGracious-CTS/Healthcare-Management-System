@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookAppointment } from './book-appointment/book-appointment';
 import { PreviousAppointment} from './previous-appoitment/previous-appoitment';
-import { Prescription } from './prescription/prescription';
 
-import { ManageAvailability } from '../../doctorPortal/slot-availability-components/manage-availability/manage-availability';
 import { CreateSlot } from '../../doctorPortal/slot-availability-components/create-slot/create-slot';
 import { Router, RouterModule } from '@angular/router';
 

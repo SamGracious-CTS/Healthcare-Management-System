@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login-service';
 import { CommonModule } from '@angular/common';
 import { User } from '../../Model/userType';
-import { DoctorService } from '../../services/doctor-service';
 import { AuthService } from '../../services/auth-service';
 
 @Component({
@@ -20,7 +18,6 @@ export class LoginSignupComponent {
   specialties: string[] = ['Cardiologist', 'Neurologist', 'Dermatologist'];
 
   constructor(
-    private loginService: LoginService,
     private router: Router,
     // private doctorService: DoctorService,
     private authService: AuthService

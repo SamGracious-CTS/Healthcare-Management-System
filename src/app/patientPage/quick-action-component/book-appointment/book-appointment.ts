@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Appointment, Patients } from '../../../Model/appointment';
-import { AppointmentService } from '../../../services/appointment-service';
 import { BookAppointmentService } from '../../../services/book-appointment-service';
 import { AuthService } from '../../../services/auth-service';
 
@@ -40,7 +39,6 @@ export class BookAppointment implements OnInit {
 
   apptform: any;
   constructor(
-    private appointmentService: AppointmentService,
     private bookAppointmentService: BookAppointmentService,
     private authService: AuthService
   ) {}
