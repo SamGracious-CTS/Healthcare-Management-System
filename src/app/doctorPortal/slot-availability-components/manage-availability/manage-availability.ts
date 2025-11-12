@@ -32,7 +32,7 @@ export class ManageAvailability implements OnInit {
   getTimeSlots() {
     this.timeSlotsService.getTimeSlots().subscribe({
       next: (response) => {
-        this.tableData = response.slots;
+        this.tableData = response;
         console.log('Slots:', response);
       },
       error: (err) => {
