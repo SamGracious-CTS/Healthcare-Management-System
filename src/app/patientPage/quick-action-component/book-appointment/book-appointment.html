@@ -1,33 +1,8 @@
 <div class="container shadow" >
 <form (ngSubmit)="bookAppointment(apptform)" #apptform="ngForm">
-  <!-- <div>
-    <label>Patient Name:</label>
-    <input type="text" id="name" name="Pname" ngModel [(ngModel)]="patient.name" #name="ngModel" required>
-    <small *ngIf="name.invalid && name.touched " class="error">patient name is required</small>
-  </div>
-
-  <div style="display: flex; gap: 10px; padding-top: 15px;">
-    <label for ="gender" >Gender:</label>
-    <input type="radio" name="gender" value="male" id="male"  ngModel  [(ngModel)]="patient.gender" #gender="ngModel" required>
-    <label>Male</label>
-    <input type="radio" name="gender" value="female" id="female" ngModel  [(ngModel)]="patient.gender" #gender="ngModel" required>
-    <label>Female</label><br>
-    <small *ngIf="gender.invalid && gender.touched" class="error"></small>
-  </div>
-
-  <div style="display: flex; gap: 10px; padding-top: 15px;">
-    <label for="age" >Age:</label>
-    <input type="number" id="age" name="Age" ngModel [(ngModel)]="patient.age">
-  </div>
-
-  <div style="padding-top: 15px;">
-    <label>Phone Number:</label><br>
-    <input type="tel" id="phno" name="Phno" minlength="10" maxlength="10" ngModel [(ngModel)]="patient.phoneNumber" #phno="ngModel" required>
-    <small *ngIf=" phno.invalid && phno.touched" class="error">*please enter your phone number</small>
-  </div> -->
-
+ <div class="form-row">
   <div style="display: flex; align-items: center; gap:10px; padding-top: 15px;">
-    <div>
+    <div class="form-field">
       <label>Specialist:</label>
       <select name="specialty" ngModel [(ngModel)]="patient.speciality" (change)="onSpecialtyChange()" required>
         <option value="">--Select--</option>
@@ -35,7 +10,7 @@
       </select>
     </div>
 
-    <div>
+    <div class="form-field">
       <label>Doctor:</label>
       <!-- value is registrationNumber; label shows name -->
       <select name="doctorReg" ngModel [(ngModel)]="patient.registrationNumber"
@@ -47,6 +22,7 @@
       </select>
       <small *ngIf="dctName.invalid && dctName.touched" class="error">*please select doctor</small>
     </div>
+  </div>
   </div>
 
   <div style="padding-top: 15px;">
