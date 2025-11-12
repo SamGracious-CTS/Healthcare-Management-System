@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth-service';
 })
 export class UpcomingAppointments implements OnInit {
   appointments: any[] = [];
+  errorMessage: string = '';
 
   constructor(
     private appointmentService: AppointmentService,
@@ -46,7 +47,14 @@ export class UpcomingAppointments implements OnInit {
     if (patientId) {
       this.bookAppointmentService.getAppointmentsByPatientId(patientId).subscribe({
         next: (appointments) => {
+          if (!appointments || appointments.length === 0) {
+          this.errorMessage = "Sorry, There are no upcoming appointments!";
+          this.appointments = [];
+          return;
+        }else{
+          this.errorMessage = '';
           this.appointments = appointments;
+        }
         },
         error: (error) => {
           console.error('Error fetching appointments:', error);

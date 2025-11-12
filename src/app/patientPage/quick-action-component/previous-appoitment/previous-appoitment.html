@@ -6,13 +6,18 @@
       <option value="all">All</option>
       <option value="cancelled">Cancelled</option>
       <option value="completed">Completed</option>
-      <option value="recent">Recently Completed</option>
+      <!-- <option value="recent">Recently Completed</option> -->
     </select>
   </div>
+
+   <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  
   <div class="card-scroll-wrapper">
     <div class="card-container">
       <div
-        *ngFor="let appt of appointments"
+        *ngFor="let appt of filteredAppointments"
         class="appointment-card"
         (click)="openModal(appt)">
         <p><strong>Date:</strong> {{ appt.date | date:'mediumDate' }}</p>
