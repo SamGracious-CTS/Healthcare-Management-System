@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Availability } from '../../../services/availability';
 import { CreateSlot } from '../create-slot/create-slot';
 import { TimeSlots } from '../../../services/time-slots';
 
@@ -13,11 +12,11 @@ import { TimeSlots } from '../../../services/time-slots';
   styleUrl: './manage-availability.css',
 })
 export class ManageAvailability implements OnInit {
-  headings: string[] = ['S No.', 'Date', 'Start Time', 'End Time', 'Actions'];
+  headings: string[] = ['S No.', 'Date', 'Start Time', 'End Time','Booked', 'Actions'];
   showSlotForm = false;
 
   newTimeSlotsByDate: { [date: string]: { id: string; startTime: string; endTime: string }[] } = {};
-  tableData: { date: string; id: string; startTime: string; endTime: string }[] = [];
+  tableData: { date: string; id: string; startTime: string; endTime: string, isBooked: boolean }[] = [];
 
   isEditSlot: boolean = false;
   selectedSlot: { date: string; id: string; startTime: string; endTime: string } | null = null;
@@ -32,7 +31,7 @@ export class ManageAvailability implements OnInit {
   getTimeSlots() {
     this.timeSlotsService.getTimeSlots().subscribe({
       next: (response) => {
-        this.tableData = response.slots;
+        this.tableData = response;
         console.log('Slots:', response);
       },
       error: (err) => {

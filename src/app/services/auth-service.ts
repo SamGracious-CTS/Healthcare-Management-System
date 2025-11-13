@@ -32,6 +32,7 @@ export class AuthService {
   saveToken(res:any): void {
     sessionStorage.setItem('token', res.token);
     sessionStorage.setItem('role', res.role);
+    sessionStorage.setItem('userName', res.data?.name);
     if(!res?.data.registrationNumber){
       sessionStorage.setItem('userId', res.data._id);
     }else{

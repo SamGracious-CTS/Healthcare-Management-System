@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Appointment } from '../../Model/appointment';
-import { AppointmentService } from '../../services/appointment-service';
 import { BookAppointmentService } from '../../services/book-appointment-service';
 import { AuthService } from '../../services/auth-service';
 
@@ -14,9 +12,9 @@ import { AuthService } from '../../services/auth-service';
 })
 export class UpcomingAppointments implements OnInit {
   appointments: any[] = [];
+  errorMessage: string = '';
 
   constructor(
-    private appointmentService: AppointmentService,
     private bookAppointmentService: BookAppointmentService,
     private authService: AuthService
   ) {}
@@ -46,7 +44,14 @@ export class UpcomingAppointments implements OnInit {
     if (patientId) {
       this.bookAppointmentService.getAppointmentsByPatientId(patientId).subscribe({
         next: (appointments) => {
+          if (!appointments || appointments.length === 0) {
+          this.errorMessage = "Sorry, There are no upcoming appointments!";
+          this.appointments = [];
+          return;
+        }else{
+          this.errorMessage = '';
           this.appointments = appointments;
+        }
         },
         error: (error) => {
           console.error('Error fetching appointments:', error);

@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login-service';
 import { CommonModule } from '@angular/common';
 import { User } from '../../Model/userType';
-import { DoctorService } from '../../services/doctor-service';
 import { AuthService } from '../../services/auth-service';
 
 @Component({
@@ -20,9 +18,8 @@ export class LoginSignupComponent {
   specialties: string[] = ['Cardiologist', 'Neurologist', 'Dermatologist'];
 
   constructor(
-    private loginService: LoginService,
     private router: Router,
-    private doctorService: DoctorService,
+    // private doctorService: DoctorService,
     private authService: AuthService
   ) {}
 
@@ -89,17 +86,11 @@ export class LoginSignupComponent {
         const name = res.data?.name;
 
         if (role === 'Admin') {
-          this.router.navigate(['/admin-dashboard'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/admin-dashboard']);
         } else if (role === 'Doctor') {
-          this.router.navigate(['/doctor-page'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/doctor-page']);
         } else if (role === 'Patient') {
-          this.router.navigate(['/patient-page'], {
-            queryParams: { userName: name, role },
-          });
+          this.router.navigate(['/patient-page']);
         } else {
           alert('Unknown role');
         }

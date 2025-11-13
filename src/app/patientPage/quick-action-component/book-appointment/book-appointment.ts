@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Appointment, Patients } from '../../../Model/appointment';
-import { AppointmentService } from '../../../services/appointment-service';
 import { BookAppointmentService } from '../../../services/book-appointment-service';
 import { AuthService } from '../../../services/auth-service';
 
@@ -40,7 +39,6 @@ export class BookAppointment implements OnInit {
 
   apptform: any;
   constructor(
-    private appointmentService: AppointmentService,
     private bookAppointmentService: BookAppointmentService,
     private authService: AuthService
   ) {}
@@ -58,14 +56,7 @@ export class BookAppointment implements OnInit {
     registrationNumber: ''
   };
 
-  specialties = [
-    'Cardiology',
-    'Dermatology',
-    'Neurology',
-    'Orthopedics',
-    'Pediatrics',
-    'General Medicine',
-  ];
+  specialties: any[] = [];
 
   doctors: any[] = [];
   availableDoctors: any[] = [];
@@ -219,6 +210,8 @@ export class BookAppointment implements OnInit {
       next: (doctors) => {
         this.doctors = doctors;
         this.availableDoctors = doctors;
+        console.log('doctors fetched:', doctors);
+        this.specialties = Array.from(new Set(doctors.map((d: any) => d.specialty))).sort();
       },
       error: (error) => {
         console.error('Error fetching doctors:', error);

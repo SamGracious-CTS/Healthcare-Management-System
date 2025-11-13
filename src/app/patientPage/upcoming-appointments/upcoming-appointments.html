@@ -1,5 +1,9 @@
 <div class="appointments-container">
   <h2>Upcoming Appointments</h2>
+
+   <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
   <div class="appointment" *ngFor="let appt of appointments">
     <div class="details-left">
       <p>

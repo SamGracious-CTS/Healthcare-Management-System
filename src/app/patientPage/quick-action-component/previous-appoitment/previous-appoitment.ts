@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Appointment } from '../../../services/appointment';
 import { CommonModule } from '@angular/common';
 import { BookAppointmentService } from '../../../services/book-appointment-service';
 import { AuthService } from '../../../services/auth-service';
@@ -16,9 +15,9 @@ export class PreviousAppointment implements OnInit {
   selectedAppointment: any = null;
   showModal: boolean = false;
   filteredAppointments: any[] = [];
+  errorMessage : string = '';
 
   constructor(
-    private appointment: Appointment,
     private appointmentService: BookAppointmentService,
     private authServie: AuthService
   ) {}
@@ -53,7 +52,13 @@ export class PreviousAppointment implements OnInit {
     if (patientId) {
       this.appointmentService.getPreviousAppointmentsByPatientId(patientId).subscribe(
         (data) => {
+          if (!data){
+            this.errorMessage = "No previous appointments found.";
+            return;
+          }else{
           this.appointments = data;
+          this.filteredAppointments = data;
+          }
         },
         (error) => {
           console.error('Error fetching previous appointments:', error);
@@ -63,18 +68,28 @@ export class PreviousAppointment implements OnInit {
   }
   filterAppointments(type: string): void {
     const today = new Date();
+    this.errorMessage = '';
     if (type === 'cancelled') {
       this.filteredAppointments = this.appointments.filter((appt) => appt.status === 'cancelled');
+      if (this.filteredAppointments.length === 0) {
+        this.errorMessage = "There are no cancelled appointments.";
+      }
     } else if (type === 'completed') {
       this.filteredAppointments = this.appointments.filter((appt) => appt.status === 'completed');
-    } else if (type === 'recent') {
-      this.filteredAppointments = this.appointments.filter((appt) => {
-        const apptDate = new Date(appt.date);
-        const diffDays = (today.getTime() - apptDate.getTime()) / (1000 * 3600 * 24);
-        return appt.status === 'completed' && diffDays <= 7;
-      });
+      if (this.filteredAppointments.length === 0) {
+        this.errorMessage = "There are no completed appointments.";
+      }
+    // } else if (type === 'recent') {
+    //   this.filteredAppointments = this.appointments.filter((appt) => {
+    //     const apptDate = new Date(appt.date);
+    //     const diffDays = (today.getTime() - apptDate.getTime()) / (1000 * 3600 * 24);
+    //     return appt.status === 'completed' && diffDays <= 7;
+    //   });
     } else {
       this.filteredAppointments = this.appointments;
+       if (this.filteredAppointments.length === 0) {
+      this.errorMessage = "No previous appointments found.";
+    }
     }
   }
   onFilterChange(event: Event): void {
