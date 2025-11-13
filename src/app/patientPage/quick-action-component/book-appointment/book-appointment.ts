@@ -56,14 +56,7 @@ export class BookAppointment implements OnInit {
     registrationNumber: ''
   };
 
-  specialties = [
-    'Cardiology',
-    'Dermatology',
-    'Neurology',
-    'Orthopedics',
-    'Pediatrics',
-    'General Medicine',
-  ];
+  specialties: any[] = [];
 
   doctors: any[] = [];
   availableDoctors: any[] = [];
@@ -217,6 +210,8 @@ export class BookAppointment implements OnInit {
       next: (doctors) => {
         this.doctors = doctors;
         this.availableDoctors = doctors;
+        console.log('doctors fetched:', doctors);
+        this.specialties = Array.from(new Set(doctors.map((d: any) => d.specialty))).sort();
       },
       error: (error) => {
         console.error('Error fetching doctors:', error);
